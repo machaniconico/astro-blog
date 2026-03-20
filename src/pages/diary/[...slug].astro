@@ -1,0 +1,119 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+
+export async function getStaticPaths() {
+	const entries = await getCollection('diary');
+	return entries.map((entry) => ({
+		params: { slug: entry.id },
+		props: entry,
+	}));
+}
+
+const entry = Astro.props;
+const { Content } = await render(entry);
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<BaseHead title={entry.data.title} description={entry.data.description} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="prose">
+					<div class="entry-header">
+						<a href="/diary" class="back-link">
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+							</svg>
+							日常の日記
+						</a>
+						<div class="entry-meta">
+							<FormattedDate date={entry.data.pubDate} />
+							{entry.data.tags && entry.data.tags.length > 0 && (
+								<div class="entry-tags">
+									{entry.data.tags.map((tag) => (
+										<span class="entry-tag">{tag}</span>
+									))}
+								</div>
+							)}
+						</div>
+						<h1>{entry.data.title}</h1>
+						<hr />
+					</div>
+					<Content />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		width: calc(100% - 2em);
+		max-width: 100%;
+		margin: 0;
+	}
+	.prose {
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: auto;
+		padding: 3em 1em 5em;
+		color: var(--text-primary);
+	}
+	.entry-header {
+		margin-bottom: 2em;
+	}
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		font-size: 0.8em;
+		color: var(--text-muted);
+		text-decoration: none;
+		margin-bottom: 1.5em;
+		transition: color 0.2s ease;
+	}
+	.back-link:hover {
+		color: var(--accent);
+		opacity: 1;
+	}
+	.entry-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.75em;
+		margin-bottom: 0.75em;
+		font-size: 0.85em;
+		color: var(--text-muted);
+		flex-wrap: wrap;
+	}
+	.entry-tags {
+		display: flex;
+		gap: 0.4em;
+	}
+	.entry-tag {
+		font-size: 0.75em;
+		padding: 0.2em 0.6em;
+		background: rgba(79, 156, 249, 0.08);
+		border: 1px solid rgba(79, 156, 249, 0.15);
+		border-radius: 20px;
+		color: var(--text-muted);
+	}
+	.entry-header h1 {
+		font-size: 2.2em;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		margin: 0 0 0.75em;
+	}
+	hr {
+		border-top: 1px solid var(--border-color);
+		margin: 0 0 2em;
+	}
+</style>

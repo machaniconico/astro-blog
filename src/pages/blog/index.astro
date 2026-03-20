@@ -5,7 +5,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -13,82 +13,18 @@ const posts = (await getCollection('blog')).sort(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
+		<BaseHead title={`開発記録の日記 | ${SITE_TITLE}`} description="技術メモ、学習記録、開発日誌。試行錯誤の軌跡を残す場所。" />
 	</head>
 	<body>
 		<Header />
 		<main>
+			<div class="page-header">
+				<p class="page-eyebrow">Dev Journal</p>
+				<h1 class="page-title">開発記録の日記</h1>
+				<p class="page-description">技術メモ、学習記録、開発日誌。試行錯誤の軌跡をMarkdownで残していく。</p>
+			</div>
 			<section>
 				<ul>
 					{
@@ -112,3 +48,101 @@ const posts = (await getCollection('blog')).sort(
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: 100%;
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 0 1.5em 5em;
+	}
+	.page-header {
+		padding: 4em 0 3em;
+		border-bottom: 1px solid var(--border-color);
+		margin-bottom: 3em;
+	}
+	.page-eyebrow {
+		font-size: 0.75em;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 0.5em;
+		font-weight: 600;
+	}
+	.page-title {
+		font-size: 2.5em;
+		font-weight: 800;
+		margin: 0 0 0.4em;
+		letter-spacing: -0.03em;
+	}
+	.page-description {
+		color: var(--text-secondary);
+		font-size: 1em;
+		margin: 0;
+	}
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	ul li {
+		width: calc(50% - 0.75rem);
+	}
+	ul li * {
+		text-decoration: none;
+		transition: 0.2s ease;
+	}
+	ul li:first-child {
+		width: 100%;
+		margin-bottom: 0.5rem;
+	}
+	ul li:first-child img {
+		width: 100%;
+	}
+	ul li:first-child .title {
+		font-size: 1.8rem;
+	}
+	ul li img {
+		margin-bottom: 0.5rem;
+		border-radius: 12px;
+		border: 1px solid var(--border-color);
+	}
+	ul li a {
+		display: block;
+	}
+	.title {
+		margin: 0;
+		color: var(--text-primary);
+		line-height: 1.2;
+	}
+	.date {
+		margin: 0.3em 0 0;
+		color: var(--text-muted);
+		font-size: 0.8em;
+	}
+	ul li a:hover .title,
+	ul li a:hover .date {
+		color: var(--accent);
+		opacity: 1;
+	}
+	@media (max-width: 720px) {
+		ul {
+			gap: 0.75em;
+		}
+		ul li {
+			width: 100%;
+		}
+		ul li:first-child {
+			margin-bottom: 0;
+		}
+		ul li:first-child .title {
+			font-size: 1.4em;
+		}
+		.page-title {
+			font-size: 2em;
+		}
+	}
+</style>
