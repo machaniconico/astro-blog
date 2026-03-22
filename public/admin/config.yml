@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: machaniconico/astro-blog
+  branch: main
+
+media_folder: public/images/blog
+public_folder: /images/blog
+
+locale: ja
+
+collections:
+  - name: blog
+    label: ブログ記事
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "タイトル", name: title, widget: string }
+      - { label: "説明", name: description, widget: string }
+      - { label: "公開日", name: pubDate, widget: datetime, format: "MMM DD YYYY", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "アイキャッチ画像", name: heroImage, widget: image, required: false }
+      - { label: "本文", name: body, widget: markdown }
