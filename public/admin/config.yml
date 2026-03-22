@@ -2,59 +2,58 @@ backend:
   name: github
   repo: machaniconico/astro-blog
   branch: main
-  base_url: https://astro-blog-a1f.pages.dev
-  auth_endpoint: api/auth
 
-media_folder: public/images/blog
-public_folder: /images/blog
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
 
 locale: ja
 
 collections:
-  - name: blog
-    label: ブログ記事（開発記録）
-    folder: src/content/blog
+  - name: "blog"
+    label: "ブログ記事"
+    folder: "src/content/blog"
     create: true
     delete: true
     slug: "{{slug}}"
     fields:
-      - { label: "タイトル", name: title, widget: string }
-      - { label: "説明", name: description, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "アイキャッチ画像", name: heroImage, widget: image, required: false }
-      - { label: "本文", name: body, widget: markdown }
+      - { label: "タイトル", name: "title", widget: "string" }
+      - { label: "説明", name: "description", widget: "string" }
+      - { label: "公開日", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "更新日", name: "updatedDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "アイキャッチ画像", name: "heroImage", widget: "image", required: false }
+      - { label: "本文", name: "body", widget: "markdown" }
 
-  - name: diary
-    label: 日常の日記
-    folder: src/content/diary
+  - name: "diary"
+    label: "日常の日記"
+    folder: "src/content/diary"
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "タイトル", name: title, widget: string }
-      - { label: "説明", name: description, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "タイトル", name: "title", widget: "string" }
+      - { label: "説明", name: "description", widget: "string" }
+      - { label: "公開日", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - label: "タグ"
-        name: tags
-        widget: list
+        name: "tags"
+        widget: "list"
         required: false
-        field: { label: タグ, name: tag, widget: string }
-      - { label: "本文", name: body, widget: markdown }
+        field: { label: "タグ", name: "tag", widget: "string" }
+      - { label: "本文", name: "body", widget: "markdown" }
 
-  - name: works
-    label: 成果物
-    folder: src/content/works
+  - name: "works"
+    label: "成果物"
+    folder: "src/content/works"
     create: true
     delete: true
     slug: "{{slug}}"
     fields:
-      - { label: "タイトル", name: title, widget: string }
-      - { label: "説明", name: description, widget: string }
+      - { label: "タイトル", name: "title", widget: "string" }
+      - { label: "説明", name: "description", widget: "string" }
+      - { label: "公開日", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - label: "技術スタック"
-        name: techStack
-        widget: list
-        field: { label: 技術, name: tech, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Live URL", name: liveUrl, widget: string, required: false }
-      - { label: "GitHub URL", name: githubUrl, widget: string, required: false }
-      - { label: "本文", name: body, widget: markdown }
+        name: "techStack"
+        widget: "list"
+        field: { label: "技術", name: "tech", widget: "string" }
+      - { label: "Live URL", name: "liveUrl", widget: "string", required: false }
+      - { label: "GitHub URL", name: "githubUrl", widget: "string", required: false }
+      - { label: "本文", name: "body", widget: "markdown" }
