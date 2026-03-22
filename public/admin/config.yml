@@ -12,7 +12,7 @@ locale: ja
 
 collections:
   - name: blog
-    label: ブログ記事
+    label: ブログ記事（開発記録）
     folder: src/content/blog
     create: true
     delete: true
@@ -20,6 +20,41 @@ collections:
     fields:
       - { label: "タイトル", name: title, widget: string }
       - { label: "説明", name: description, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "MMM DD YYYY", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "アイキャッチ画像", name: heroImage, widget: image, required: false }
+      - { label: "本文", name: body, widget: markdown }
+
+  - name: diary
+    label: 日常の日記
+    folder: src/content/diary
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "タイトル", name: title, widget: string }
+      - { label: "説明", name: description, widget: string }
+      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - label: "タグ"
+        name: tags
+        widget: list
+        required: false
+        field: { label: タグ, name: tag, widget: string }
+      - { label: "本文", name: body, widget: markdown }
+
+  - name: works
+    label: 成果物
+    folder: src/content/works
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "タイトル", name: title, widget: string }
+      - { label: "説明", name: description, widget: string }
+      - label: "技術スタック"
+        name: techStack
+        widget: list
+        field: { label: 技術, name: tech, widget: string }
+      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Live URL", name: liveUrl, widget: string, required: false }
+      - { label: "GitHub URL", name: githubUrl, widget: string, required: false }
       - { label: "本文", name: body, widget: markdown }
