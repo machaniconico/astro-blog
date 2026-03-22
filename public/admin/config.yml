@@ -2,7 +2,7 @@ backend:
   name: github
   repo: machaniconico/astro-blog
   branch: main
-  base_url: https://4d7fc128.astro-blog-a1f.pages.dev
+  base_url: https://astro-blog-a1f.pages.dev
   auth_endpoint: api/auth
 
 media_folder: public/images/blog
