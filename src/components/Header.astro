@@ -29,10 +29,10 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		margin: 0;
 		padding: 0 1.5em;
-		background: rgba(11, 17, 32, 0.9);
+		background: rgba(255, 255, 255, 0.92);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
-		border-bottom: 1px solid rgba(79, 156, 249, 0.12);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 		position: sticky;
 		top: 0;
 		z-index: 100;
@@ -44,12 +44,12 @@ import HeaderLink from './HeaderLink.astro';
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
-		color: #e2e8f0;
+		color: #0f172a;
 		font-weight: 700;
 		letter-spacing: -0.02em;
 	}
 	h2 a:hover {
-		color: #4f9cf9;
+		color: #2563eb;
 		opacity: 1;
 	}
 	nav {
@@ -60,20 +60,20 @@ import HeaderLink from './HeaderLink.astro';
 	}
 	nav a {
 		padding: 0.5em 0.6em;
-		color: #94a3b8;
+		color: #64748b;
 		border-bottom: 3px solid transparent;
 		text-decoration: none;
 		font-size: 0.9em;
 		transition: color 0.2s ease;
 	}
 	nav a:hover {
-		color: #e2e8f0;
+		color: #0f172a;
 		opacity: 1;
 	}
 	nav a.active {
 		text-decoration: none;
-		border-bottom-color: #4f9cf9;
-		color: #e2e8f0;
+		border-bottom-color: #2563eb;
+		color: #0f172a;
 	}
 	.social-links,
 	.social-links a {
@@ -81,11 +81,11 @@ import HeaderLink from './HeaderLink.astro';
 		align-items: center;
 	}
 	.social-links a {
-		color: #94a3b8;
+		color: #64748b;
 		padding: 0.4em;
 	}
 	.social-links a:hover {
-		color: #e2e8f0;
+		color: #0f172a;
 		opacity: 1;
 	}
 	@media (max-width: 720px) {
