@@ -3,26 +3,140 @@
 */
 
 :root {
+	/* ---------- Brand / accent ---------- */
 	--accent: #2563eb;
 	--accent-dark: #1d4ed8;
+	--accent-violet: #7c3aed;
 	--accent-glow: rgba(37, 99, 235, 0.2);
+	--gradient-hero: linear-gradient(135deg, #2563eb, #7c3aed);
+
+	/* ---------- Warm accent (highlight-only) ---------- */
+	--warm: #f97316;
+	--warm-dark: #ea580c;
+	--warm-glow: rgba(249, 115, 22, 0.28);
+	--warm-tint-08: rgba(249, 115, 22, 0.08);
+	--warm-tint-20: rgba(249, 115, 22, 0.20);
+	--shadow-glow-warm: 0 0 20px rgba(249, 115, 22, 0.28);
+	--shadow-glow-warm-hover: 0 0 28px rgba(249, 115, 22, 0.38);
+
+	/* ---------- Neutrals (slate scale) ---------- */
+	--slate-950: #0f1219;
+	--slate-900: #0f172a;
+	--slate-600: #475569;
+	--slate-500: #64748b;
+	--slate-400: #94a3b8;
+	--slate-100: #f1f5f9;
+	--slate-50: #f8fafc;
+	--white: #ffffff;
+
+	/* ---------- Legacy tuples (kept for compatibility) ---------- */
 	--black: 15, 18, 25;
 	--gray: 100, 116, 139;
 	--gray-light: 241, 245, 249;
 	--gray-dark: 15, 23, 42;
+
+	/* ---------- Semantic surface / text ---------- */
 	--bg-primary: #ffffff;
 	--bg-secondary: #f1f5f9;
 	--bg-card: #ffffff;
 	--bg-card-hover: #f8fafc;
+	--bg-footer: rgba(248, 250, 252, 0.95);
+	--bg-header: rgba(255, 255, 255, 0.92);
 	--border-color: rgba(0, 0, 0, 0.08);
 	--border-hover: rgba(37, 99, 235, 0.4);
 	--text-primary: #0f172a;
 	--text-secondary: #475569;
 	--text-muted: #94a3b8;
+
+	/* Accent tints */
+	--accent-tint-06: rgba(37, 99, 235, 0.06);
+	--accent-tint-07: rgba(37, 99, 235, 0.07);
+	--accent-tint-12: rgba(37, 99, 235, 0.12);
+	--accent-tint-15: rgba(37, 99, 235, 0.15);
+
+	/* 4-point mesh: blue / warm / violet / blue */
+	--bg-wash:
+		radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12) 0%, transparent 45%),
+		radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.10) 0%, transparent 45%),
+		radial-gradient(circle at 80% 90%, rgba(124, 58, 237, 0.10) 0%, transparent 50%),
+		radial-gradient(circle at 10% 95%, rgba(37, 99, 235, 0.08) 0%, transparent 50%);
+
 	--gray-gradient: rgba(var(--gray-light), 50%), var(--bg-primary);
-	--box-shadow:
-		0 2px 6px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.05),
+
+	/* ---------- Elevation ---------- */
+	--shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 8px 30px rgba(0, 0, 0, 0.10);
+	--shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.10);
+	--shadow-stack:
+		0 2px 6px rgba(0, 0, 0, 0.06),
+		0 8px 24px rgba(0, 0, 0, 0.05),
 		0 16px 32px rgba(0, 0, 0, 0.04);
+	--shadow-glow-primary: 0 0 20px rgba(37, 99, 235, 0.25);
+	--shadow-glow-primary-hover: 0 0 28px rgba(37, 99, 235, 0.35);
+	--box-shadow: var(--shadow-stack);
+
+	/* ---------- Radius ---------- */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 10px;
+	--radius-xl: 12px;
+	--radius-2xl: 16px;
+	--radius-pill: 20px;
+
+	/* ---------- Spacing ---------- */
+	--space-1: 0.25em;
+	--space-2: 0.5em;
+	--space-3: 0.75em;
+	--space-4: 1em;
+	--space-5: 1.25em;
+	--space-6: 1.5em;
+	--space-8: 2em;
+	--space-10: 2.5em;
+	--space-12: 3em;
+	--space-16: 4em;
+	--space-20: 5em;
+
+	--w-prose: 720px;
+	--w-diary: 760px;
+	--w-page: 1000px;
+
+	/* ---------- Type ---------- */
+	--font-sans: "Atkinson", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+		"Yu Gothic", "Meiryo", system-ui, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+		"Liberation Mono", monospace;
+
+	--fs-base: 20px;
+	--fs-h1: 3.052em;
+	--fs-h2: 2.441em;
+	--fs-h3: 1.953em;
+	--fs-h4: 1.563em;
+	--fs-h5: 1.25em;
+	--fs-small: 0.85em;
+	--fs-xs: 0.75em;
+
+	--tracking-tight: -0.03em;
+	--tracking-snug: -0.02em;
+	--tracking-eyebrow: 0.20em;
+	--tracking-label: 0.18em;
+
+	--lh-tight: 1.1;
+	--lh-snug: 1.2;
+	--lh-normal: 1.3;
+	--lh-prose: 1.7;
+	--lh-loose: 1.8;
+
+	--fw-regular: 400;
+	--fw-semibold: 600;
+	--fw-bold: 700;
+	--fw-black: 800;
+
+	/* ---------- Motion ---------- */
+	--t-fast: 0.2s ease;
+	--t-base: 0.25s ease;
+	--lift-1: translateY(-1px);
+	--lift-2: translateY(-2px);
+	--lift-3: translateY(-3px);
 }
 @font-face {
 	font-family: "Atkinson";
@@ -39,20 +153,18 @@
 	font-display: swap;
 }
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: var(--font-sans);
 	margin: 0;
 	padding: 0;
 	text-align: left;
 	background-color: var(--bg-primary);
-	background-image:
-		radial-gradient(ellipse at 20% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
-		radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
+	background-image: var(--bg-wash);
 	background-attachment: fixed;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: var(--text-primary);
-	font-size: 20px;
-	line-height: 1.7;
+	font-size: var(--fs-base);
+	line-height: var(--lh-prose);
 }
 main {
 	width: 720px;
