@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:16px;}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .btn{display:inline-block;padding:0.65em 1.5em;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s ease;font-family:inherit;border:none;cursor:pointer;}
+  .btn-primary{background:#2563eb;color:#fff;box-shadow:0 0 20px rgba(37,99,235,0.25);}
+  .btn-primary:hover{background:#1d4ed8;box-shadow:0 0 28px rgba(37,99,235,0.35);transform:translateY(-1px);}
+  .btn-secondary{background:transparent;color:#475569;border:1px solid rgba(0,0,0,0.08);}
+  .btn-secondary:hover{border-color:#2563eb;color:#2563eb;background:rgba(37,99,235,0.05);}
+  .label{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Components</div>
+    <h3>Buttons</h3>
+  </div>
+  <div class="row">
+    <a class="btn btn-primary" href="#">制作物を見る</a>
+    <a class="btn btn-secondary" href="#">記事を読む</a>
+    <a class="btn btn-secondary" href="#">日記を見る</a>
+  </div>
+  <div class="row">
+    <span class="label">primary — rest</span>
+    <span class="label">secondary — rest</span>
+  </div>
+  <div class="row">
+    <a class="btn btn-primary" href="#" style="background:#1d4ed8;box-shadow:0 0 28px rgba(37,99,235,0.35);transform:translateY(-1px);">制作物を見る</a>
+    <a class="btn btn-secondary" href="#" style="border-color:#2563eb;color:#2563eb;background:rgba(37,99,235,0.05);">記事を読む</a>
+  </div>
+  <div class="row">
+    <span class="label">primary — hover</span>
+    <span class="label">secondary — hover</span>
+  </div>
+</div></body></html>

@@ -1,0 +1,254 @@
+/*
+ * 個人開発のすゝめ — Design System
+ * Core color + type tokens + semantic styles.
+ * Copy-paste-safe — everything is defined as CSS variables.
+ */
+
+@font-face {
+  font-family: "Atkinson";
+  src: url("fonts/atkinson-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson";
+  src: url("fonts/atkinson-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Brand / accent ---------- */
+  --accent:         #2563eb;   /* primary blue-600 */
+  --accent-dark:    #1d4ed8;   /* blue-700, used for primary hover */
+  --accent-violet:  #7c3aed;   /* violet-600, used only in the hero title gradient */
+  --accent-glow:    rgba(37, 99, 235, 0.2);
+
+  /* Gradient used on the hero title accent word */
+  --gradient-hero:  linear-gradient(135deg, #2563eb, #7c3aed);
+
+  /* ---------- Warm accent (secondary, highlight-only) ----------
+   * Use SPARINGLY and only for "now / new / outbound" moments:
+   *   - Works "Live Demo" CTA fill
+   *   - "新着 / Today" badge
+   *   - Diary "today" dot
+   * Do NOT use for links, nav, body text, or large surfaces.
+   * Blue remains the default accent; warm is a deliberate highlight. */
+  --warm:           #f97316;   /* orange-500 — primary warm */
+  --warm-dark:      #ea580c;   /* orange-600 — hover */
+  --warm-glow:      rgba(249, 115, 22, 0.28);
+  --warm-tint-08:   rgba(249, 115, 22, 0.08);   /* badge fill */
+  --warm-tint-20:   rgba(249, 115, 22, 0.20);   /* badge border */
+  --shadow-glow-warm:       0 0 20px rgba(249, 115, 22, 0.28);
+  --shadow-glow-warm-hover: 0 0 28px rgba(249, 115, 22, 0.38);
+
+  /* ---------- Neutrals (slate scale) ---------- */
+  --slate-950: #0f1219;        /* original `--black` tuple */
+  --slate-900: #0f172a;        /* text-primary */
+  --slate-600: #475569;        /* text-secondary */
+  --slate-500: #64748b;        /* `--gray` tuple */
+  --slate-400: #94a3b8;        /* text-muted */
+  --slate-100: #f1f5f9;        /* bg-secondary / gray-light */
+  --slate-50:  #f8fafc;        /* bg-card-hover */
+  --white:     #ffffff;
+
+  /* ---------- Semantic surface / text ---------- */
+  --bg-primary:     #ffffff;
+  --bg-secondary:   #f1f5f9;
+  --bg-card:        #ffffff;
+  --bg-card-hover:  #f8fafc;
+  --bg-footer:      rgba(248, 250, 252, 0.95);
+  --bg-header:      rgba(255, 255, 255, 0.92);
+
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+
+  --border-color:   rgba(0, 0, 0, 0.08);
+  --border-hover:   rgba(37, 99, 235, 0.4);
+
+  /* Subtle accent tints used on chips, icon chips, code backgrounds */
+  --accent-tint-06: rgba(37, 99, 235, 0.06);
+  --accent-tint-07: rgba(37, 99, 235, 0.07);
+  --accent-tint-12: rgba(37, 99, 235, 0.12);
+  --accent-tint-15: rgba(37, 99, 235, 0.15);
+
+  /* Page background wash — 4-point mesh (blue / warm / violet / blue),
+   * the full brand palette scattered across the viewport. Visibly tinted
+   * but still calm thanks to the white base. background-attachment: fixed. */
+  --bg-wash:
+    radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.10) 0%, transparent 45%),
+    radial-gradient(circle at 80% 90%, rgba(124, 58, 237, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 10% 95%, rgba(37, 99, 235, 0.08) 0%, transparent 50%);
+
+  /* ---------- Elevation ---------- */
+  --shadow-sm:   0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md:   0 8px 30px rgba(0, 0, 0, 0.10);
+  --shadow-lg:   0 12px 40px rgba(0, 0, 0, 0.10);
+  --shadow-stack:
+    0 2px 6px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.05),
+    0 16px 32px rgba(0, 0, 0, 0.04);
+  --shadow-glow-primary:      0 0 20px rgba(37, 99, 235, 0.25);
+  --shadow-glow-primary-hover:0 0 28px rgba(37, 99, 235, 0.35);
+
+  /* ---------- Radius ---------- */
+  --radius-sm:   4px;   /* inline code */
+  --radius-md:   8px;   /* buttons, pre, images */
+  --radius-lg:   10px;  /* small icon chip */
+  --radius-xl:   12px;  /* medium icon chip, hero images */
+  --radius-2xl:  16px;  /* cards */
+  --radius-pill: 20px;  /* tags, badges */
+
+  /* ---------- Spacing ---------- */
+  --space-1: 0.25em;
+  --space-2: 0.5em;
+  --space-3: 0.75em;
+  --space-4: 1em;
+  --space-5: 1.25em;
+  --space-6: 1.5em;
+  --space-8: 2em;
+  --space-10: 2.5em;
+  --space-12: 3em;
+  --space-16: 4em;
+  --space-20: 5em;
+
+  /* Content widths */
+  --w-prose:     720px;
+  --w-diary:     760px;
+  --w-page:     1000px;
+
+  /* ---------- Type families ---------- */
+  --font-sans: "Atkinson", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+               "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+
+  /* ---------- Type scale (major-third 1.25, matches global.css) ---------- */
+  --fs-base:   20px;
+  --fs-h1:     3.052em;   /* 61px */
+  --fs-h2:     2.441em;   /* 49px */
+  --fs-h3:     1.953em;   /* 39px */
+  --fs-h4:     1.563em;   /* 31px */
+  --fs-h5:     1.25em;    /* 25px */
+  --fs-small:  0.85em;
+  --fs-xs:     0.75em;
+
+  /* Tracking */
+  --tracking-tight:   -0.03em;   /* hero + page titles */
+  --tracking-snug:    -0.02em;   /* site wordmark */
+  --tracking-eyebrow:  0.20em;   /* eyebrow uppercase */
+  --tracking-label:    0.18em;   /* section labels */
+
+  /* Line heights */
+  --lh-tight:   1.1;   /* hero */
+  --lh-snug:    1.2;   /* headings */
+  --lh-normal:  1.3;   /* card titles */
+  --lh-prose:   1.7;   /* body */
+  --lh-loose:   1.8;   /* hero description */
+
+  /* Weights */
+  --fw-regular: 400;
+  --fw-semibold:600;
+  --fw-bold:    700;
+  --fw-black:   800;
+
+  /* ---------- Motion ---------- */
+  --t-fast:   0.2s ease;
+  --t-base:   0.25s ease;
+  --lift-1:   translateY(-1px);
+  --lift-2:   translateY(-2px);
+  --lift-3:   translateY(-3px);
+}
+
+/* --------------------------------------------------------
+ * Semantic element styles
+ * Opt-in by scoping to .ds-prose on a container, so these
+ * can be dropped into any page without clashing with resets.
+ * -------------------------------------------------------- */
+.ds-body,
+body.ds-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-prose);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  background-image: var(--bg-wash);
+  background-attachment: fixed;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.ds-h1, h1.ds {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+.ds-h2, h2.ds { font-size: var(--fs-h2); font-weight: var(--fw-bold);  line-height: var(--lh-snug); color: var(--text-primary); margin: 0 0 0.5rem; }
+.ds-h3, h3.ds { font-size: var(--fs-h3); font-weight: var(--fw-bold);  line-height: var(--lh-snug); color: var(--text-primary); margin: 0 0 0.5rem; }
+.ds-h4, h4.ds { font-size: var(--fs-h4); font-weight: var(--fw-bold);  line-height: var(--lh-snug); color: var(--text-primary); margin: 0 0 0.5rem; }
+.ds-h5, h5.ds { font-size: var(--fs-h5); font-weight: var(--fw-bold);  line-height: var(--lh-snug); color: var(--text-primary); margin: 0 0 0.5rem; }
+
+.ds-eyebrow {
+  font-size: 0.8em;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+}
+.ds-section-label {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.ds-p  { margin: 0 0 1em; line-height: var(--lh-prose); color: var(--text-primary); }
+.ds-lead { font-size: 1.1em; color: var(--text-secondary); line-height: var(--lh-loose); }
+.ds-muted { color: var(--text-muted); }
+.ds-secondary { color: var(--text-secondary); }
+
+.ds-a, a.ds { color: var(--accent); text-decoration: underline; transition: opacity var(--t-fast); }
+.ds-a:hover, a.ds:hover { opacity: 0.85; }
+
+.ds-code, code.ds {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 2px 5px;
+  background: var(--accent-tint-07);
+  border: 1px solid var(--accent-tint-15);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+}
+.ds-pre, pre.ds {
+  font-family: var(--font-mono);
+  padding: 1.5em;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.ds-blockquote, blockquote.ds {
+  border-left: 4px solid var(--accent);
+  padding: 0 0 0 20px;
+  margin: 0;
+  font-size: 1.333em;
+  color: var(--text-secondary);
+}
+
+.ds-hr { border: none; border-top: 1px solid var(--border-color); }
+
+/* Tiny responsive tweak matching source */
+@media (max-width: 720px) {
+  .ds-body { font-size: 18px; }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .swatch{display:flex;flex-direction:column;gap:8px;}
+  .chip{height:64px;border-radius:12px;border:1px solid var(--border-color);}
+  .name{font-size:13px;font-weight:700;color:var(--text-primary);}
+  .hex{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);}
+  .role{font-size:11px;color:var(--text-secondary);line-height:1.5;}
+  h3{margin:0;font-size:14px;font-weight:700;letter-spacing:-0.01em;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-dark);font-weight:700;}
+  .rule{font-size:11.5px;color:var(--text-secondary);line-height:1.6;margin:0;padding:10px 12px;border-left:3px solid var(--warm);background:var(--warm-tint-08);border-radius:0 6px 6px 0;}
+  .rule strong{color:var(--text-primary);font-weight:700;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Brand · Secondary</div>
+    <h3>Warm accent — highlight only</h3>
+  </div>
+  <p class="rule">
+    <strong>Use sparingly.</strong> "Now / new / outbound" moments only —
+    Live Demo CTA, 新着/Today badges, diary "today" dot.
+    Blue remains the default accent; warm is a deliberate highlight, never a secondary default.
+  </p>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#f97316;box-shadow:0 0 20px rgba(249,115,22,0.28);"></div><div class="name">warm</div><div class="hex">#f97316</div><div class="role">Live Demo fill, accent dot</div></div>
+    <div class="swatch"><div class="chip" style="background:#ea580c;"></div><div class="name">warm-dark</div><div class="hex">#ea580c</div><div class="role">Hover, badge label text</div></div>
+    <div class="swatch"><div class="chip" style="background:rgba(249,115,22,0.08);"></div><div class="name">warm-tint-08</div><div class="hex">8% tint</div><div class="role">Badge fill</div></div>
+    <div class="swatch"><div class="chip" style="background:rgba(249,115,22,0.20);"></div><div class="name">warm-tint-20</div><div class="hex">20% tint</div><div class="role">Badge border</div></div>
+  </div>
+</div></body></html>

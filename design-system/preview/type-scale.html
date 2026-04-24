@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .scale{display:flex;flex-direction:column;gap:6px;}
+  .row{display:grid;grid-template-columns:90px 1fr 110px;gap:12px;align-items:baseline;padding:6px 0;border-bottom:1px dashed rgba(0,0,0,0.05);}
+  .row:last-child{border-bottom:none;}
+  .tok{font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);}
+  .meta{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);text-align:right;}
+  .x{color:var(--text-primary);font-weight:800;letter-spacing:-0.03em;line-height:1.2;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Type · Scale</div>
+    <h3>Major third · 1.25× from 20px</h3>
+  </div>
+  <div class="scale">
+    <div class="row"><span class="tok">h1</span><span class="x" style="font-size:48px;">Aa 個</span><span class="meta">3.052em · 61px</span></div>
+    <div class="row"><span class="tok">h2</span><span class="x" style="font-size:39px;">Aa 個</span><span class="meta">2.441em · 49px</span></div>
+    <div class="row"><span class="tok">h3</span><span class="x" style="font-size:31px;">Aa 個</span><span class="meta">1.953em · 39px</span></div>
+    <div class="row"><span class="tok">h4</span><span class="x" style="font-size:25px;">Aa 個</span><span class="meta">1.563em · 31px</span></div>
+    <div class="row"><span class="tok">h5</span><span class="x" style="font-size:20px;">Aa 個</span><span class="meta">1.25em · 25px</span></div>
+    <div class="row"><span class="tok">body</span><span style="font-size:16px;line-height:1.7;">Aa 個人開発</span><span class="meta">1em · 20px</span></div>
+  </div>
+</div></body></html>

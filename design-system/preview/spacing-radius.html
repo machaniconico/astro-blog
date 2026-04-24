@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .cell{padding:12px;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-card);display:flex;flex-direction:column;gap:6px;}
+  .big{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);}
+  .desc{font-size:11px;color:var(--text-secondary);}
+  code{font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);padding:1px 5px;border-radius:4px;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Foundations</div>
+    <h3>Radius</h3>
+  </div>
+  <div class="grid">
+    <div class="cell"><div style="height:40px;border-radius:4px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-sm</code><div class="big">4px</div><div class="desc">Inline code</div></div>
+    <div class="cell"><div style="height:40px;border-radius:8px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-md</code><div class="big">8px</div><div class="desc">Buttons, pre, images</div></div>
+    <div class="cell"><div style="height:40px;border-radius:10px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-lg</code><div class="big">10px</div><div class="desc">Small icon chip</div></div>
+    <div class="cell"><div style="height:40px;border-radius:12px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-xl</code><div class="big">12px</div><div class="desc">Hero image, md chip</div></div>
+    <div class="cell"><div style="height:40px;border-radius:16px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-2xl</code><div class="big">16px</div><div class="desc">All cards</div></div>
+    <div class="cell"><div style="height:40px;border-radius:20px;background:var(--accent-tint-07);border:1px solid var(--accent-tint-15);"></div><code>--radius-pill</code><div class="big">20px</div><div class="desc">Tags, badges</div></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  .rows{display:flex;flex-direction:column;gap:10px;}
+  .r{display:grid;grid-template-columns:110px 1fr 120px;gap:16px;align-items:center;padding:10px 12px;border-radius:10px;border:1px solid var(--border-color);background:var(--bg-card);}
+  .token{font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);}
+  .sample{height:22px;border-radius:6px;}
+  .desc{font-size:11px;color:var(--text-muted);text-align:right;}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Semantic</div>
+    <h3>Surface &amp; text</h3>
+  </div>
+  <div class="rows">
+    <div class="r"><span class="token">--bg-primary</span><div class="sample" style="background:#ffffff;border:1px solid var(--border-color);"></div><span class="desc">page</span></div>
+    <div class="r"><span class="token">--bg-secondary</span><div class="sample" style="background:#f1f5f9;"></div><span class="desc">pre, gray surface</span></div>
+    <div class="r"><span class="token">--bg-card</span><div class="sample" style="background:#ffffff;border:1px solid var(--border-color);"></div><span class="desc">all cards</span></div>
+    <div class="r"><span class="token">--text-primary</span><div class="sample" style="background:#0f172a;"></div><span class="desc">headings, body</span></div>
+    <div class="r"><span class="token">--text-secondary</span><div class="sample" style="background:#475569;"></div><span class="desc">descriptions</span></div>
+    <div class="r"><span class="token">--text-muted</span><div class="sample" style="background:#94a3b8;"></div><span class="desc">dates, tag labels</span></div>
+    <div class="r"><span class="token">--border-color</span><div class="sample" style="background:rgba(0,0,0,0.08);"></div><span class="desc">rgba(0,0,0,.08)</span></div>
+    <div class="r"><span class="token">--border-hover</span><div class="sample" style="background:rgba(37,99,235,0.4);"></div><span class="desc">card hover ring</span></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .spec{display:grid;grid-template-columns:1fr 150px;gap:16px;align-items:baseline;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.06);}
+  .spec:last-child{border-bottom:none;}
+  .meta{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);text-align:right;white-space:nowrap;}
+</style></head>
+<body><div class="card">
+  <div class="eyebrow">Type · Body</div>
+  <div class="spec"><span style="font-size:22px;line-height:1.8;color:var(--text-secondary);">コードを書き、思考を記録し、日々を綴る。</span><span class="meta">Lead · 1.1em · 1.8</span></div>
+  <div class="spec"><span style="font-size:20px;line-height:1.7;">これまでに作ったWebアプリ、ツール、OSSプロジェクトを紹介します。</span><span class="meta">Body · 20px · 1.7</span></div>
+  <div class="spec"><span style="font-size:17px;color:var(--text-secondary);line-height:1.7;">技術メモ、学習記録、開発日誌。試行錯誤の軌跡をMarkdownで残していく。</span><span class="meta">Description · 0.85em</span></div>
+  <div class="spec"><span style="font-size:13px;color:var(--text-muted);">Mar 30, 2026</span><span class="meta">Date · 0.75em · muted</span></div>
+  <div class="spec"><span style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;">Personal Dev Journal</span><span class="meta">Eyebrow · .8em · +0.2em</span></div>
+</div></body></html>

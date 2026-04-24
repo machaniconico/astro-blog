@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  .ramp{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+  .sw{display:flex;flex-direction:column;gap:6px;}
+  .chip{height:56px;border-radius:10px;border:1px solid var(--border-color);}
+  .name{font-size:11px;font-weight:700;}
+  .hex{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Neutrals</div>
+    <h3>Slate ramp</h3>
+  </div>
+  <div class="ramp">
+    <div class="sw"><div class="chip" style="background:#0f1219;"></div><div class="name">slate-950</div><div class="hex">#0f1219</div></div>
+    <div class="sw"><div class="chip" style="background:#0f172a;"></div><div class="name">slate-900</div><div class="hex">#0f172a</div></div>
+    <div class="sw"><div class="chip" style="background:#475569;"></div><div class="name">slate-600</div><div class="hex">#475569</div></div>
+    <div class="sw"><div class="chip" style="background:#64748b;"></div><div class="name">slate-500</div><div class="hex">#64748b</div></div>
+    <div class="sw"><div class="chip" style="background:#94a3b8;"></div><div class="name">slate-400</div><div class="hex">#94a3b8</div></div>
+    <div class="sw"><div class="chip" style="background:#f1f5f9;"></div><div class="name">slate-100</div><div class="hex">#f1f5f9</div></div>
+    <div class="sw"><div class="chip" style="background:#ffffff;"></div><div class="name">white</div><div class="hex">#ffffff</div></div>
+  </div>
+</div></body></html>

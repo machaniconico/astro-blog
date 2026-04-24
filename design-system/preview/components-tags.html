@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  h3{margin:0;font-size:14px;font-weight:700;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .tag{font-size:0.7em;padding:0.25em 0.65em;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);border-radius:20px;color:#94a3b8;letter-spacing:0.02em;}
+  .tech{font-size:0.7em;padding:0.25em 0.65em;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);border-radius:20px;color:#2563eb;font-weight:500;}
+  .entry{font-size:0.68em;padding:0.2em 0.6em;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);border-radius:20px;color:#94a3b8;}
+  .label{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);display:block;margin-bottom:4px;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Components</div>
+    <h3>Tags &amp; badges</h3>
+  </div>
+  <div>
+    <span class="label">nav-card tag · muted label</span>
+    <div class="wrap"><span class="tag">Web App</span><span class="tag">CLI Tool</span><span class="tag">OSS</span><span class="tag">技術メモ</span><span class="tag">学習記録</span></div>
+  </div>
+  <div>
+    <span class="label">tech-badge · accent label</span>
+    <div class="wrap"><span class="tech">TypeScript</span><span class="tech">Astro</span><span class="tech">React</span><span class="tech">Tailwind</span><span class="tech">FFmpeg</span></div>
+  </div>
+  <div>
+    <span class="label">diary entry-tag · smaller</span>
+    <div class="wrap"><span class="entry">日記</span><span class="entry">振り返り</span><span class="entry">気づき</span></div>
+  </div>
+</div></body></html>

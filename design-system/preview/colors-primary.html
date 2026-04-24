@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:14px;}
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .swatch{display:flex;flex-direction:column;gap:8px;}
+  .chip{height:64px;border-radius:12px;border:1px solid var(--border-color);}
+  .name{font-size:13px;font-weight:700;color:var(--text-primary);}
+  .hex{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);}
+  .role{font-size:11px;color:var(--text-secondary);}
+  h3{margin:0;font-size:14px;font-weight:700;letter-spacing:-0.01em;}
+  .eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="eyebrow">Brand</div>
+    <h3>Primary accent</h3>
+  </div>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#2563eb;box-shadow:0 0 20px rgba(37,99,235,0.25);"></div><div class="name">accent</div><div class="hex">#2563eb</div><div class="role">Links, buttons, eyebrows</div></div>
+    <div class="swatch"><div class="chip" style="background:#1d4ed8;"></div><div class="name">accent-dark</div><div class="hex">#1d4ed8</div><div class="role">Primary button hover</div></div>
+    <div class="swatch"><div class="chip" style="background:#7c3aed;"></div><div class="name">accent-violet</div><div class="hex">#7c3aed</div><div class="role">Hero title gradient only</div></div>
+    <div class="swatch"><div class="chip" style="background:linear-gradient(135deg,#2563eb,#7c3aed);"></div><div class="name">gradient-hero</div><div class="hex">135deg</div><div class="role">Hero accent word</div></div>
+  </div>
+</div></body></html>

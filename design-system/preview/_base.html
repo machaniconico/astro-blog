@@ -1,0 +1,23 @@
+<!-- Shared base for preview cards. Each card should be ~700px wide. -->
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-primary);
+    background-image: var(--bg-wash);
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    box-sizing: border-box;
+    padding: 20px 24px;
+  }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .col { display: flex; flex-direction: column; }
+  .mono { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+  .small { font-size: 12px; color: var(--text-secondary); }
+</style>

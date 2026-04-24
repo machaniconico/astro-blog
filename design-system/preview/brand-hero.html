@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  html,body{margin:0;padding:0;background:var(--bg-primary);background-image:var(--bg-wash);background-attachment:fixed;font-family:var(--font-sans);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+  .card{box-sizing:border-box;padding:32px 24px;display:flex;flex-direction:column;gap:12px;}
+  .eyebrow{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#2563eb;font-weight:600;}
+  .hero-title{font-size:48px;font-weight:800;line-height:1.1;letter-spacing:-0.03em;margin:0;}
+  .accent{background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .desc{font-size:16px;color:#475569;line-height:1.8;margin:0;}
+  .cta{display:flex;gap:12px;margin-top:8px;}
+  .btn{padding:0.65em 1.5em;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;}
+  .p{background:#2563eb;color:#fff;box-shadow:0 0 20px rgba(37,99,235,0.25);}
+  .s{background:transparent;color:#475569;border:1px solid rgba(0,0,0,0.08);}
+  .ring-wrap{position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:220px;height:220px;pointer-events:none;}
+  .ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(37,99,235,0.1);}
+  .r1{width:90px;height:90px;border-color:rgba(37,99,235,0.15);}
+  .r2{width:140px;height:140px;}
+  .r3{width:200px;height:200px;border-color:rgba(37,99,235,0.05);}
+  .dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#2563eb;box-shadow:0 0 20px rgba(37,99,235,0.5);}
+  .wrap{position:relative;overflow:hidden;}
+</style></head>
+<body><div class="card wrap">
+  <div class="eyebrow">Personal Dev Journal</div>
+  <h1 class="hero-title">個人開発の<span class="accent">すゝめ</span></h1>
+  <p class="desc">コードを書き、思考を記録し、日々を綴る。</p>
+  <div class="cta">
+    <a class="btn p" href="#">制作物を見る</a>
+    <a class="btn s" href="#">記事を読む</a>
+  </div>
+  <div class="ring-wrap">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="dot"></div>
+  </div>
+</div></body></html>

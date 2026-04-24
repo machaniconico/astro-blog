@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>Home — warm accent placement</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  html, body { margin:0; padding:0; background:#eef0f3; font-family: var(--font-sans); }
+  #root { height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+
+<script type="text/babel">
+// ---- Shared pieces ----
+
+const Eyebrow = ({ children, color = "var(--accent)" }) => (
+  <p style={{ fontSize: "0.75em", letterSpacing: "0.2em", textTransform: "uppercase", color, margin: "0 0 0.75em", fontWeight: 600 }}>
+    {children}
+  </p>
+);
+
+const HeroTitle = ({ gradTo = "#7c3aed" }) => {
+  const gradStyle = {
+    background: `linear-gradient(135deg,#2563eb,${gradTo})`,
+    WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent",
+  };
+  return (
+    <h1 style={{ fontSize: "3.4em", fontWeight: 800, lineHeight: 1.1, margin: "0 0 0.5em", color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+      個人開発の<span style={gradStyle}>すゝめ</span>
+    </h1>
+  );
+};
+
+const HeroDecoration = ({ dotColor = "var(--accent)", dotGlow = "rgba(37,99,235,0.5)", ringColor = "37,99,235" }) => (
+  <div aria-hidden="true" style={{ position: "absolute", right: -60, top: "50%", transform: "translateY(-50%)", width: 360, height: 360, pointerEvents: "none" }}>
+    {[
+      { size: 160, o: 0.15 },
+      { size: 240, o: 0.10 },
+      { size: 320, o: 0.05 },
+    ].map((r, i) => (
+      <div key={i} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: r.size, height: r.size, borderRadius: "50%", border: `1px solid rgba(${ringColor},${r.o})` }} />
+    ))}
+    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 10, height: 10, borderRadius: "50%", background: dotColor, boxShadow: `0 0 22px ${dotGlow}` }} />
+  </div>
+);
+
+const PrimaryBtn = ({ children, warm }) => (
+  <button style={{
+    padding: "0.65em 1.5em", borderRadius: 8, border: "none", cursor: "pointer",
+    background: warm ? "var(--warm)" : "var(--accent)",
+    color: "#fff", fontWeight: 600, fontSize: 14, fontFamily: "inherit",
+    boxShadow: warm ? "var(--shadow-glow-warm)" : "var(--shadow-glow-primary)",
+  }}>
+    {children}
+  </button>
+);
+const SecondaryBtn = ({ children }) => (
+  <button style={{
+    padding: "0.65em 1.5em", borderRadius: 8, cursor: "pointer",
+    background: "transparent", color: "var(--text-secondary)",
+    fontWeight: 600, fontSize: 14, fontFamily: "inherit",
+    border: "1px solid var(--border-color)",
+  }}>
+    {children}
+  </button>
+);
+
+// ---- Variant body ----
+
+const Variant = ({ id }) => {
+  const gradTo   = id === "grad"  ? "#f97316" : "#7c3aed";
+  const dotColor = id === "dot"   ? "var(--warm)" : "var(--accent)";
+  const dotGlow  = id === "dot"   ? "rgba(249,115,22,0.55)" : "rgba(37,99,235,0.5)";
+  const ringCol  = id === "dot"   ? "249,115,22" : "37,99,235";
+  const warmBtn  = id === "cta";
+
+  return (
+    <div style={{
+      position: "relative",
+      background: "var(--bg-primary)",
+      backgroundImage: "var(--bg-wash)",
+      padding: "3em 2em 2.5em",
+      minHeight: "100%",
+      boxSizing: "border-box",
+      fontFamily: "var(--font-sans)",
+      color: "var(--text-primary)",
+      overflow: "hidden",
+    }}>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 440 }}>
+        <Eyebrow>Personal Dev Journal</Eyebrow>
+        <HeroTitle gradTo={gradTo} />
+        <p style={{ fontSize: "0.95em", color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: "1.8em" }}>
+          コードを書き、思考を記録し、日々を綴る。<br />アイデアを形にする過程を、ここに残していく。
+        </p>
+        <div style={{ display: "flex", gap: "0.8em", flexWrap: "wrap" }}>
+          <PrimaryBtn warm={warmBtn}>制作物を見る</PrimaryBtn>
+          <SecondaryBtn>記事を読む</SecondaryBtn>
+          <SecondaryBtn>日記を見る</SecondaryBtn>
+        </div>
+      </div>
+      <HeroDecoration dotColor={dotColor} dotGlow={dotGlow} ringColor={ringCol} />
+    </div>
+  );
+};
+
+const Caption = ({ children }) => (
+  <p style={{ margin: "10px 14px 0", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.6, fontFamily: "var(--font-sans)" }}>
+    {children}
+  </p>
+);
+
+const App = () => (
+  <DesignCanvas title="トップ画面 — 暖色の差し込み方" subtitle="派手すぎず editorial 感を保つ3案">
+    <DCSection id="variants" title="Hero variants">
+
+      <DCArtboard id="baseline" label="基準 · 現状" width={720} height={520}>
+        <Variant id="baseline" />
+        <Caption>現状。全体が青一色で統一、派手さは控えめ。</Caption>
+      </DCArtboard>
+
+      <DCArtboard id="dot" label="案1 · ドット暖色化(推し)" width={720} height={520}>
+        <Variant id="dot" />
+        <Caption>
+          ヒーロー右の中央ドットを warm に。リングも warm 系に揃えて「青の風景に暖色の1点」。
+          一番控えめで editorial 感を壊さず温度感が出る。
+        </Caption>
+      </DCArtboard>
+
+      <DCArtboard id="grad" label="案2 · タイトルのグラデに warm" width={720} height={520}>
+        <Variant id="grad" />
+        <Caption>
+          「すゝめ」のグラデを blue→violet から blue→orange に変更。
+          一番目立つ場所なので派手さは十分。violetの上品さは失う。
+        </Caption>
+      </DCArtboard>
+
+      <DCArtboard id="cta" label="案3 · CTA を warm(派手)" width={720} height={520}>
+        <Variant id="cta" />
+        <Caption>
+          「制作物を見る」を warm 塗りに。Live Demo と同じ塗り方で一貫するが、
+          Home の主要導線で warm を使うのは「highlight-only」ルールと競合する。
+        </Caption>
+      </DCArtboard>
+
+    </DCSection>
+  </DesignCanvas>
+);
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

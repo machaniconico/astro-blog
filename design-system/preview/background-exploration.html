@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>Background gradient — exploration</title>
+<link rel="stylesheet" href="../colors_and_type.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  html, body { margin:0; padding:0; background:#eef0f3; font-family: var(--font-sans); }
+  #root { height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+
+const WASHES = {
+  baseline: {
+    label: "基準 · 現状 (--bg-wash)",
+    notes: "極薄い青+indigo の2点 radial、3% opacity。ほぼ白。",
+    bg: `
+      radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.03) 0%, transparent 50%)
+    `,
+  },
+  warmCorner: {
+    label: "案1 · 暖色コーナー",
+    notes: "既存の青washに、右上だけ warm の極薄radialを重ねる。派手度: ★☆☆。editorial感キープ。",
+    bg: `
+      radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 95% 10%, rgba(249,115,22,0.07) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 90%, rgba(99,102,241,0.03) 0%, transparent 50%)
+    `,
+  },
+  dawn: {
+    label: "案2 · Dawn(上→下 青紫→琥珀)",
+    notes: "上部 blue-indigo、下部 warm の大きな縦グラデ。朝焼けの雰囲気。派手度: ★★☆。",
+    bg: `
+      radial-gradient(ellipse 120% 70% at 30% -10%, rgba(37,99,235,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 120% 70% at 70% 110%, rgba(249,115,22,0.07) 0%, transparent 60%)
+    `,
+  },
+  tricolor: {
+    label: "案3 · 三点(blue / violet / warm)",
+    notes: "ブランドの3色(青・バイオレット・暖色)を薄く散らす。派手度: ★★☆。個性が出る。",
+    bg: `
+      radial-gradient(ellipse at 15% 20%, rgba(37,99,235,0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 30%, rgba(124,58,237,0.05) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 95%, rgba(249,115,22,0.06) 0%, transparent 50%)
+    `,
+  },
+  mesh: {
+    label: "案4 · メッシュ風(濃いめ)",
+    notes: "4点のmesh。派手度: ★★★。SaaS LPっぽくなるので editorial感は弱まる。",
+    bg: `
+      radial-gradient(circle at 10% 0%, rgba(37,99,235,0.12) 0%, transparent 45%),
+      radial-gradient(circle at 90% 10%, rgba(249,115,22,0.10) 0%, transparent 45%),
+      radial-gradient(circle at 80% 90%, rgba(124,58,237,0.10) 0%, transparent 50%),
+      radial-gradient(circle at 10% 95%, rgba(37,99,235,0.08) 0%, transparent 50%)
+    `,
+  },
+};
+
+// ---- Hero mock (compact) ----
+const HeroMock = () => (
+  <div style={{ padding: "2.5em 2em 2em", position: "relative", overflow: "hidden", minHeight: 420, boxSizing: "border-box" }}>
+    <div style={{ position: "relative", zIndex: 1, maxWidth: 420 }}>
+      <p style={{ fontSize: "0.7em", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--accent)", margin: "0 0 0.75em", fontWeight: 600 }}>Personal Dev Journal</p>
+      <h1 style={{ fontSize: "2.6em", fontWeight: 800, lineHeight: 1.1, margin: "0 0 0.5em", letterSpacing: "-0.03em", color: "var(--text-primary)" }}>
+        個人開発の<span style={{ background: "linear-gradient(135deg,#2563eb,#7c3aed)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>すゝめ</span>
+      </h1>
+      <p style={{ fontSize: "0.9em", color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: "1.5em" }}>
+        コードを書き、思考を記録し、日々を綴る。<br/>アイデアを形にする過程を、ここに残していく。
+      </p>
+      <div style={{ display: "flex", gap: "0.6em", flexWrap: "wrap" }}>
+        <button style={{ padding: "0.55em 1.3em", borderRadius: 8, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 600, fontSize: 13, fontFamily: "inherit", boxShadow: "0 0 20px rgba(37,99,235,0.25)", cursor: "pointer" }}>制作物を見る</button>
+        <button style={{ padding: "0.55em 1.3em", borderRadius: 8, background: "transparent", color: "var(--text-secondary)", fontWeight: 600, fontSize: 13, fontFamily: "inherit", border: "1px solid var(--border-color)", cursor: "pointer" }}>記事を読む</button>
+      </div>
+    </div>
+    {/* mini hero decoration */}
+    <div aria-hidden="true" style={{ position: "absolute", right: -40, top: "50%", transform: "translateY(-50%)", width: 280, height: 280, pointerEvents: "none" }}>
+      {[
+        { size: 120, o: 0.15 },
+        { size: 180, o: 0.10 },
+        { size: 240, o: 0.05 },
+      ].map((r, i) => (
+        <div key={i} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: r.size, height: r.size, borderRadius: "50%", border: `1px solid rgba(249,115,22,${r.o})` }} />
+      ))}
+      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 8, height: 8, borderRadius: "50%", background: "var(--warm)", boxShadow: "0 0 22px rgba(249,115,22,0.55)" }} />
+    </div>
+    {/* sample card below fold to test card-on-bg contrast */}
+    <div style={{ position: "relative", zIndex: 1, marginTop: "2em", padding: "1em 1.2em", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 16, maxWidth: 420 }}>
+      <div style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--text-muted)", fontWeight: 600, marginBottom: 4 }}>Sample card</div>
+      <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>白カードが浮くかの確認</div>
+    </div>
+  </div>
+);
+
+const Variant = ({ w }) => (
+  <div style={{ background: "#ffffff", backgroundImage: w.bg, backgroundAttachment: "fixed", minHeight: "100%", fontFamily: "var(--font-sans)", color: "var(--text-primary)" }}>
+    <HeroMock />
+    <p style={{ margin: 0, padding: "0 14px 18px", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.6 }}>{w.notes}</p>
+  </div>
+);
+
+const App = () => (
+  <DesignCanvas title="背景グラデーション — 4案" subtitle="editorial感を守る方向から、少し華やかに寄せた案まで">
+    <DCSection id="bgs" title="Background washes">
+      {Object.entries(WASHES).map(([id, w]) => (
+        <DCArtboard key={id} id={id} label={w.label} width={640} height={560}>
+          <Variant w={w} />
+        </DCArtboard>
+      ))}
+    </DCSection>
+  </DesignCanvas>
+);
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
