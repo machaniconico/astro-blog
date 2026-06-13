@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { getDailyTopic } from '../data/topics';
+const suggestion = getDailyTopic();
+---
+
+<Base title="ページが見つかりません">
+	<section class="container nf">
+		<p class="big">🌱</p>
+		<h1>404 — ページが見つかりません</h1>
+		<p class="sub">お探しのページは引っこ抜かれてしまったようです。</p>
+		<div class="hint card">
+			<span class="chip">かわりに今日のネタ</span>
+			<p>{suggestion.text}</p>
+		</div>
+		<div class="actions">
+			<a href="/" class="btn">ホームへ戻る</a>
+			<a href="/gacha" class="btn btn--ghost">🎲 ネタを引く</a>
+		</div>
+	</section>
+
+	<style>
+		.nf {
+			text-align: center;
+			padding: 4rem 0;
+			max-width: 560px;
+		}
+		.big {
+			font-size: 3.5rem;
+			margin: 0;
+		}
+		.nf h1 {
+			font-size: 1.6rem;
+			margin: 0.5rem 0;
+		}
+		.sub {
+			color: var(--text-soft);
+		}
+		.hint {
+			margin: 1.6rem 0;
+			text-align: left;
+			border-top: 4px solid var(--accent);
+		}
+		.hint p {
+			margin: 0.6rem 0 0;
+			font-weight: 700;
+			font-size: 1.1rem;
+		}
+		.actions {
+			display: flex;
+			gap: 0.8rem;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+	</style>
+</Base>

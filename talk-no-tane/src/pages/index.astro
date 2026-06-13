@@ -1,0 +1,361 @@
+---
+import Base from '../layouts/Base.astro';
+import TopicCard from '../components/TopicCard.astro';
+import { topics, getDailyTopic } from '../data/topics';
+import { categories } from '../data/categories';
+
+const daily = getDailyTopic();
+const totalTopics = topics.length;
+const totalCategories = categories.length;
+
+// クライアントのガチャ用に最小限の情報だけ渡す
+const gachaData = topics.map((t) => ({
+	t: t.text,
+	c: t.category,
+	h: t.hint ?? '',
+}));
+const catLookup = Object.fromEntries(
+	categories.map((c) => [c.id, { name: c.name, emoji: c.emoji, color: c.color }]),
+);
+---
+
+<Base>
+	<section class="hero">
+		<div class="container hero-inner">
+			<p class="eyebrow">雑談配信のネタ探しサイト</p>
+			<h1>話に詰まったら、<br /><span class="hl">タネ</span>をまこう。</h1>
+			<p class="lead">
+				{totalTopics}個のトークテーマから、ボタンひとつでランダムに話のタネを。<br
+				/>雑談配信・ラジオ・録音のお供にどうぞ。
+			</p>
+
+			<div id="hero-gacha" class="hero-gacha card">
+				<div class="gacha-head">
+					<span id="hero-cat" class="chip">🌱 ネタを引いてみよう</span>
+					<button
+						id="hero-copy"
+						class="copy-btn"
+						type="button"
+						aria-label="このネタをコピー"
+						hidden>コピー</button
+					>
+				</div>
+				<p id="hero-text" class="gacha-text">下のボタンを押してネタを引こう！</p>
+				<p id="hero-hint" class="gacha-hint" hidden></p>
+				<div class="gacha-actions">
+					<button id="hero-draw" class="btn" type="button">🎲 ネタを引く</button>
+					<a href="/gacha" class="btn btn--ghost">もっと細かく引く →</a>
+				</div>
+			</div>
+
+			<div class="stats">
+				<a href="/topics" class="stat"><strong>{totalTopics}</strong>個のネタ</a>
+				<a href="/categories" class="stat"
+					><strong>{totalCategories}</strong>カテゴリ</a
+				>
+				<span class="stat"><strong>無料</strong>・登録不要</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="container section">
+		<div class="section-head">
+			<h2>📅 今日のネタ</h2>
+			<p class="section-sub">毎日0時に切り替わる、今日のおすすめトークテーマ。</p>
+		</div>
+		<div class="single">
+			<TopicCard topic={daily} />
+		</div>
+	</section>
+
+	<section class="container section">
+		<div class="section-head">
+			<h2>🗂 カテゴリから探す</h2>
+			<p class="section-sub">気になるジャンルから話のタネを見つけよう。</p>
+		</div>
+		<div class="cat-grid">
+			{
+				categories.map((c) => (
+					<a
+						href={`/categories/${c.id}`}
+						class="cat-card card"
+						style={`--cat:${c.color}`}
+					>
+						<span class="cat-emoji">{c.emoji}</span>
+						<span class="cat-name">{c.name}</span>
+						<span class="cat-desc">{c.description}</span>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="container section">
+		<div class="features">
+			<div class="feature card">
+				<h3>🎲 ランダムガチャ</h3>
+				<p>ボタンを押すだけ。カテゴリを絞って引くこともできます。</p>
+			</div>
+			<div class="feature card">
+				<h3>🔎 一覧＆検索</h3>
+				<p>全ネタをキーワードやカテゴリで検索・絞り込み。</p>
+			</div>
+			<div class="feature card">
+				<h3>📋 ワンタップコピー</h3>
+				<p>気に入ったネタはコピーして配信メモへすぐ貼り付け。</p>
+			</div>
+		</div>
+	</section>
+
+	<script
+		type="application/json"
+		id="gacha-data"
+		set:html={JSON.stringify(gachaData)}
+	/>
+	<script
+		type="application/json"
+		id="cat-data"
+		set:html={JSON.stringify(catLookup)}
+	/>
+
+	<script>
+		type G = { t: string; c: string; h: string };
+		type C = { name: string; emoji: string; color: string };
+		const data: G[] = JSON.parse(
+			document.getElementById('gacha-data')?.textContent || '[]',
+		);
+		const cats: Record<string, C> = JSON.parse(
+			document.getElementById('cat-data')?.textContent || '{}',
+		);
+
+		const box = document.getElementById('hero-gacha');
+		const textEl = document.getElementById('hero-text');
+		const hintEl = document.getElementById('hero-hint');
+		const catEl = document.getElementById('hero-cat');
+		const copyBtn = document.getElementById('hero-copy');
+		let last = -1;
+		let current = '';
+
+		function draw() {
+			if (!data.length || !textEl || !hintEl || !catEl || !copyBtn) return;
+			let i = Math.floor(Math.random() * data.length);
+			if (data.length > 1) while (i === last) i = Math.floor(Math.random() * data.length);
+			last = i;
+			const item = data[i];
+			const cat = cats[item.c];
+			current = item.t;
+			textEl.textContent = item.t;
+			if (cat) {
+				catEl.textContent = `${cat.emoji} ${cat.name}`;
+				box?.style.setProperty('--cat', cat.color);
+			}
+			if (item.h) {
+				hintEl.textContent = `💡 ${item.h}`;
+				hintEl.hidden = false;
+			} else {
+				hintEl.hidden = true;
+			}
+			copyBtn.hidden = false;
+			box?.classList.remove('pop');
+			void box?.offsetWidth;
+			box?.classList.add('pop');
+		}
+
+		document.getElementById('hero-draw')?.addEventListener('click', draw);
+		copyBtn?.addEventListener('click', () => {
+			if (!current) return;
+			navigator.clipboard?.writeText(current).then(() => {
+				copyBtn.textContent = 'コピー済み';
+				copyBtn.classList.add('copied');
+				setTimeout(() => {
+					copyBtn.textContent = 'コピー';
+					copyBtn.classList.remove('copied');
+				}, 1400);
+			});
+		});
+	</script>
+
+	<style>
+		.hero {
+			background:
+				radial-gradient(
+					1200px 400px at 50% -120px,
+					var(--accent-soft),
+					transparent
+				);
+			padding: 3rem 0 2rem;
+		}
+		.hero-inner {
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.eyebrow {
+			margin: 0 0 0.5rem;
+			font-weight: 800;
+			letter-spacing: 0.08em;
+			color: var(--accent-dark);
+			font-size: 0.85rem;
+		}
+		.hero h1 {
+			margin: 0 0 1rem;
+			font-size: clamp(2rem, 6vw, 3.2rem);
+			font-weight: 900;
+			letter-spacing: 0.02em;
+		}
+		.hl {
+			color: var(--accent-dark);
+		}
+		.lead {
+			margin: 0 0 1.8rem;
+			color: var(--text-soft);
+			font-size: 1.05rem;
+		}
+		.hero-gacha {
+			width: 100%;
+			max-width: 560px;
+			border-top: 5px solid var(--cat, var(--accent));
+			display: flex;
+			flex-direction: column;
+			gap: 0.9rem;
+			text-align: left;
+		}
+		.gacha-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.5rem;
+		}
+		.gacha-text {
+			margin: 0;
+			font-size: 1.4rem;
+			font-weight: 800;
+			line-height: 1.5;
+			min-height: 2.1em;
+		}
+		.gacha-hint {
+			margin: 0;
+			color: var(--text-soft);
+			font-size: 0.9rem;
+		}
+		.gacha-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.7rem;
+			margin-top: 0.3rem;
+		}
+		.copy-btn {
+			border: 1px solid var(--border);
+			background: var(--bg-soft);
+			color: var(--text-soft);
+			font-size: 0.75rem;
+			font-weight: 700;
+			padding: 0.2rem 0.6rem;
+			border-radius: 999px;
+			cursor: pointer;
+		}
+		.copy-btn.copied {
+			color: #fff;
+			background: var(--cat, var(--accent));
+			border-color: var(--cat, var(--accent));
+		}
+		.pop {
+			animation: pop 0.25s ease;
+		}
+		@keyframes pop {
+			0% {
+				transform: scale(0.98);
+			}
+			60% {
+				transform: scale(1.015);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+		.stats {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1.5rem;
+			justify-content: center;
+			margin-top: 1.6rem;
+		}
+		.stat {
+			color: var(--text-soft);
+			font-size: 0.95rem;
+			text-decoration: none;
+		}
+		.stat strong {
+			color: var(--text);
+			font-size: 1.3rem;
+			margin-right: 0.2rem;
+		}
+		a.stat:hover {
+			color: var(--accent-dark);
+		}
+
+		.section {
+			padding-top: 3rem;
+		}
+		.section-head {
+			margin-bottom: 1.3rem;
+		}
+		.section-head h2 {
+			margin: 0 0 0.3rem;
+			font-size: 1.5rem;
+		}
+		.section-sub {
+			margin: 0;
+			color: var(--text-soft);
+			font-size: 0.95rem;
+		}
+		.single {
+			max-width: 560px;
+		}
+		.cat-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+			gap: 1rem;
+		}
+		.cat-card {
+			display: flex;
+			flex-direction: column;
+			gap: 0.3rem;
+			border-left: 4px solid var(--cat);
+			text-decoration: none;
+			color: var(--text);
+			transition:
+				transform 0.12s ease,
+				box-shadow 0.2s ease;
+		}
+		.cat-card:hover {
+			transform: translateY(-3px);
+			text-decoration: none;
+		}
+		.cat-emoji {
+			font-size: 1.6rem;
+		}
+		.cat-name {
+			font-weight: 800;
+			font-size: 1.05rem;
+		}
+		.cat-desc {
+			color: var(--text-soft);
+			font-size: 0.85rem;
+		}
+		.features {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: 1rem;
+		}
+		.feature h3 {
+			margin: 0 0 0.4rem;
+		}
+		.feature p {
+			margin: 0;
+			color: var(--text-soft);
+			font-size: 0.92rem;
+		}
+	</style>
+</Base>

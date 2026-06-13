@@ -1,0 +1,61 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container footer-inner">
+		<p class="footer-brand">🌱 トークのタネ</p>
+		<p class="footer-note">
+			雑談配信のネタ（話のタネ）を探すためのサイト。配信のお供にどうぞ。
+		</p>
+		<nav aria-label="フッターナビゲーション">
+			<a href="/gacha">ガチャ</a>
+			<a href="/topics">ネタ一覧</a>
+			<a href="/categories">カテゴリ</a>
+			<a href="/about">このサイト</a>
+		</nav>
+		<p class="copyright">© {year} トークのタネ</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		margin-top: 4rem;
+		border-top: 1px solid var(--border);
+		background: var(--bg-soft);
+		padding: 2.5rem 0;
+	}
+	.footer-inner {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		align-items: center;
+		text-align: center;
+	}
+	.footer-brand {
+		font-weight: 800;
+		margin: 0;
+	}
+	.footer-note {
+		margin: 0;
+		color: var(--text-soft);
+		font-size: 0.9rem;
+		max-width: 36rem;
+	}
+	.site-footer nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		justify-content: center;
+		margin: 0.4rem 0;
+	}
+	.site-footer nav a {
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+	.copyright {
+		margin: 0;
+		color: var(--text-soft);
+		font-size: 0.8rem;
+	}
+</style>

@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro';
+import { categories } from '../../data/categories';
+import { getTopicsByCategory } from '../../data/topics';
+---
+
+<Base
+	title="カテゴリ一覧"
+	description="雑談配信のネタをジャンル別に。日常あるあるから妄想トーク、視聴者参加型の質問まで、カテゴリから話のタネを探そう。"
+>
+	<section class="container page">
+		<header class="page-head">
+			<h1>🗂 カテゴリ一覧</h1>
+			<p class="page-sub">気になるジャンルから話のタネを探そう。</p>
+		</header>
+
+		<div class="cat-grid">
+			{
+				categories.map((c) => {
+					const count = getTopicsByCategory(c.id).length;
+					return (
+						<a
+							href={`/categories/${c.id}`}
+							class="cat-card card"
+							style={`--cat:${c.color}`}
+						>
+							<span class="cat-emoji">{c.emoji}</span>
+							<span class="cat-name">{c.name}</span>
+							<span class="cat-desc">{c.description}</span>
+							<span class="cat-count">{count}個のネタ →</span>
+						</a>
+					);
+				})
+			}
+		</div>
+	</section>
+
+	<style>
+		.page {
+			padding-top: 2.5rem;
+		}
+		.page-head h1 {
+			margin: 0 0 0.3rem;
+			font-size: 1.8rem;
+		}
+		.page-sub {
+			margin: 0 0 1.6rem;
+			color: var(--text-soft);
+		}
+		.cat-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+			gap: 1rem;
+		}
+		.cat-card {
+			display: flex;
+			flex-direction: column;
+			gap: 0.3rem;
+			border-left: 4px solid var(--cat);
+			text-decoration: none;
+			color: var(--text);
+			transition: transform 0.12s ease;
+		}
+		.cat-card:hover {
+			transform: translateY(-3px);
+			text-decoration: none;
+		}
+		.cat-emoji {
+			font-size: 1.8rem;
+		}
+		.cat-name {
+			font-weight: 800;
+			font-size: 1.1rem;
+		}
+		.cat-desc {
+			color: var(--text-soft);
+			font-size: 0.85rem;
+		}
+		.cat-count {
+			margin-top: 0.3rem;
+			color: var(--cat);
+			font-weight: 700;
+			font-size: 0.85rem;
+		}
+	</style>
+</Base>

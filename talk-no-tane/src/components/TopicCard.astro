@@ -1,0 +1,93 @@
+---
+import type { Topic } from '../data/topics';
+import { getCategory } from '../data/categories';
+
+interface Props {
+	topic: Topic;
+	showCategory?: boolean;
+}
+
+const { topic, showCategory = true } = Astro.props;
+const category = getCategory(topic.category);
+---
+
+<article
+	class="topic-card card"
+	data-topic={topic.text}
+	data-category={topic.category}
+	style={category ? `--cat:${category.color}` : ''}
+>
+	<div class="topic-head">
+		{
+			showCategory && category && (
+				<a href={`/categories/${category.id}`} class="topic-cat">
+					<span>{category.emoji}</span>
+					{category.name}
+				</a>
+			)
+		}
+		<button class="copy-btn" type="button" aria-label="このネタをコピー">
+			コピー
+		</button>
+	</div>
+	<p class="topic-text">{topic.text}</p>
+	{topic.hint && <p class="topic-hint">💡 {topic.hint}</p>}
+</article>
+
+<style>
+	.topic-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+		border-top: 4px solid var(--cat);
+	}
+	.topic-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+	.topic-cat {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--cat);
+		text-decoration: none;
+	}
+	.topic-cat:hover {
+		text-decoration: underline;
+	}
+	.topic-text {
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 700;
+		line-height: 1.55;
+	}
+	.topic-hint {
+		margin: 0;
+		font-size: 0.85rem;
+		color: var(--text-soft);
+	}
+	.copy-btn {
+		border: 1px solid var(--border);
+		background: var(--bg-soft);
+		color: var(--text-soft);
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.2rem 0.6rem;
+		border-radius: 999px;
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+	.copy-btn:hover {
+		color: var(--text);
+		border-color: var(--cat);
+	}
+	.copy-btn.copied {
+		color: #fff;
+		background: var(--cat);
+		border-color: var(--cat);
+	}
+</style>

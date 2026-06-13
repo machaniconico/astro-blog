@@ -1,0 +1,146 @@
+:root {
+	--bg: #fffaf3;
+	--bg-soft: #fff4e6;
+	--surface: #ffffff;
+	--border: #f0e3d2;
+	--text: #2b2118;
+	--text-soft: #7a6a58;
+	--accent: #f97316;
+	--accent-dark: #ea580c;
+	--accent-soft: #ffedd5;
+	--shadow: 0 10px 30px -12px rgba(120, 80, 30, 0.25);
+	--radius: 18px;
+	--maxw: 1080px;
+	--cat: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #181410;
+		--bg-soft: #211b14;
+		--surface: #241d16;
+		--border: #3a2f24;
+		--text: #f4ece1;
+		--text-soft: #b8a791;
+		--accent: #fb923c;
+		--accent-dark: #f97316;
+		--accent-soft: #3a2a18;
+		--shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.5);
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family:
+		'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo,
+		system-ui, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	line-height: 1.75;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--accent-dark);
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+.container {
+	width: 100%;
+	max-width: var(--maxw);
+	margin-inline: auto;
+	padding-inline: 1.25rem;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.3;
+	letter-spacing: 0.01em;
+}
+
+/* ── ボタン ───────────────────────────── */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border: none;
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 700;
+	padding: 0.85rem 1.6rem;
+	border-radius: 999px;
+	background: var(--accent);
+	color: #fff;
+	box-shadow: var(--shadow);
+	transition:
+		transform 0.12s ease,
+		background 0.2s ease;
+	text-decoration: none;
+}
+.btn:hover {
+	background: var(--accent-dark);
+	transform: translateY(-2px);
+	text-decoration: none;
+}
+.btn:active {
+	transform: translateY(0) scale(0.98);
+}
+.btn--ghost {
+	background: var(--surface);
+	color: var(--text);
+	border: 1px solid var(--border);
+	box-shadow: none;
+}
+.btn--ghost:hover {
+	background: var(--bg-soft);
+}
+
+/* ── カード ───────────────────────────── */
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 1.25rem 1.4rem;
+	box-shadow: var(--shadow);
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	padding: 0.25rem 0.7rem;
+	border-radius: 999px;
+	background: var(--accent-soft);
+	color: var(--accent-dark);
+	white-space: nowrap;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}

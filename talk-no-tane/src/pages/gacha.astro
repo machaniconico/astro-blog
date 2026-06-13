@@ -1,0 +1,390 @@
+---
+import Base from '../layouts/Base.astro';
+import { topics } from '../data/topics';
+import { categories } from '../data/categories';
+
+const gachaData = topics.map((t) => ({ t: t.text, c: t.category, h: t.hint ?? '' }));
+const catLookup = Object.fromEntries(
+	categories.map((c) => [c.id, { name: c.name, emoji: c.emoji, color: c.color }]),
+);
+---
+
+<Base
+	title="ネタガチャ"
+	description="カテゴリを絞ってボタンを押すだけ。雑談配信の話のタネをランダムに引けるネタガチャ。"
+>
+	<section class="container page">
+		<header class="page-head">
+			<h1>🎲 ネタガチャ</h1>
+			<p class="page-sub">
+				引きたいカテゴリを選んで（未選択なら全部から）、ボタンを押すだけ。
+			</p>
+		</header>
+
+		<div class="filter">
+			<button class="filter-toggle" type="button" data-all>すべて選択</button>
+			<button class="filter-toggle" type="button" data-none>すべて解除</button>
+			{
+				categories.map((c) => (
+					<label class="filter-chip" style={`--cat:${c.color}`}>
+						<input type="checkbox" value={c.id} checked />
+						<span>
+							{c.emoji} {c.name}
+						</span>
+					</label>
+				))
+			}
+		</div>
+
+		<div id="result" class="result card">
+			<div class="result-head">
+				<span id="result-cat" class="chip">🌱 準備OK</span>
+				<button id="result-copy" class="copy-btn" type="button" hidden>コピー</button>
+			</div>
+			<p id="result-text" class="result-text">
+				ボタンを押してネタを引こう！
+			</p>
+			<p id="result-hint" class="result-hint" hidden></p>
+		</div>
+
+		<div class="draw-row">
+			<button id="draw" class="btn draw-big" type="button">🎲 ネタを引く</button>
+		</div>
+
+		<section class="history-wrap" hidden id="history-wrap">
+			<div class="history-head">
+				<h2>引いたネタの履歴</h2>
+				<button id="history-clear" class="btn btn--ghost btn-sm" type="button"
+					>クリア</button
+				>
+			</div>
+			<ul id="history" class="history"></ul>
+		</section>
+	</section>
+
+	<script
+		type="application/json"
+		id="gacha-data"
+		set:html={JSON.stringify(gachaData)}
+	/>
+	<script
+		type="application/json"
+		id="cat-data"
+		set:html={JSON.stringify(catLookup)}
+	/>
+
+	<script>
+		type G = { t: string; c: string; h: string };
+		type C = { name: string; emoji: string; color: string };
+		const data: G[] = JSON.parse(
+			document.getElementById('gacha-data')?.textContent || '[]',
+		);
+		const cats: Record<string, C> = JSON.parse(
+			document.getElementById('cat-data')?.textContent || '{}',
+		);
+
+		const result = document.getElementById('result')!;
+		const textEl = document.getElementById('result-text')!;
+		const hintEl = document.getElementById('result-hint') as HTMLElement;
+		const catEl = document.getElementById('result-cat')!;
+		const copyBtn = document.getElementById('result-copy') as HTMLElement;
+		const historyEl = document.getElementById('history')!;
+		const historyWrap = document.getElementById('history-wrap') as HTMLElement;
+		const checks = Array.from(
+			document.querySelectorAll<HTMLInputElement>('.filter-chip input'),
+		);
+		let last = -1;
+		let current = '';
+		const history: G[] = [];
+
+		function selected(): string[] {
+			return checks.filter((c) => c.checked).map((c) => c.value);
+		}
+
+		function pool(): { item: G; index: number }[] {
+			const sel = selected();
+			const list =
+				sel.length === 0
+					? data.map((item, index) => ({ item, index }))
+					: data
+							.map((item, index) => ({ item, index }))
+							.filter((x) => sel.includes(x.item.c));
+			return list;
+		}
+
+		function setCopy(btn: HTMLElement, text: string) {
+			btn.addEventListener('click', () => {
+				navigator.clipboard?.writeText(text).then(() => {
+					const o = btn.textContent;
+					btn.textContent = 'コピー済み';
+					btn.classList.add('copied');
+					setTimeout(() => {
+						btn.textContent = o;
+						btn.classList.remove('copied');
+					}, 1400);
+				});
+			});
+		}
+
+		function draw() {
+			const list = pool();
+			if (!list.length) {
+				textEl.textContent = 'カテゴリを1つ以上選んでね';
+				return;
+			}
+			let pick = list[Math.floor(Math.random() * list.length)];
+			if (list.length > 1) {
+				while (pick.index === last)
+					pick = list[Math.floor(Math.random() * list.length)];
+			}
+			last = pick.index;
+			const { item } = pick;
+			const cat = cats[item.c];
+			current = item.t;
+			textEl.textContent = item.t;
+			if (cat) {
+				catEl.textContent = `${cat.emoji} ${cat.name}`;
+				result.style.setProperty('--cat', cat.color);
+			}
+			if (item.h) {
+				hintEl.textContent = `💡 ${item.h}`;
+				hintEl.hidden = false;
+			} else {
+				hintEl.hidden = true;
+			}
+			copyBtn.hidden = false;
+			result.classList.remove('pop');
+			void result.offsetWidth;
+			result.classList.add('pop');
+			pushHistory(item);
+		}
+
+		function pushHistory(item: G) {
+			history.unshift(item);
+			if (history.length > 20) history.pop();
+			renderHistory();
+		}
+
+		function renderHistory() {
+			historyWrap.hidden = history.length === 0;
+			historyEl.innerHTML = '';
+			history.forEach((item) => {
+				const cat = cats[item.c];
+				const li = document.createElement('li');
+				li.className = 'history-item card';
+				if (cat) li.style.setProperty('--cat', cat.color);
+				const meta = document.createElement('span');
+				meta.className = 'history-cat';
+				meta.textContent = cat ? `${cat.emoji} ${cat.name}` : '';
+				const txt = document.createElement('p');
+				txt.className = 'history-text';
+				txt.textContent = item.t;
+				const btn = document.createElement('button');
+				btn.className = 'copy-btn';
+				btn.type = 'button';
+				btn.textContent = 'コピー';
+				setCopy(btn, item.t);
+				const head = document.createElement('div');
+				head.className = 'history-row';
+				head.append(meta, btn);
+				li.append(head, txt);
+				historyEl.append(li);
+			});
+		}
+
+		document.getElementById('draw')?.addEventListener('click', draw);
+		document
+			.querySelector('[data-all]')
+			?.addEventListener('click', () => checks.forEach((c) => (c.checked = true)));
+		document
+			.querySelector('[data-none]')
+			?.addEventListener('click', () =>
+				checks.forEach((c) => (c.checked = false)),
+			);
+		document.getElementById('history-clear')?.addEventListener('click', () => {
+			history.length = 0;
+			renderHistory();
+		});
+		// 結果のコピーボタンは毎回最新の current を参照する
+		copyBtn.addEventListener('click', () => {
+			if (!current) return;
+			navigator.clipboard?.writeText(current).then(() => {
+				copyBtn.textContent = 'コピー済み';
+				copyBtn.classList.add('copied');
+				setTimeout(() => {
+					copyBtn.textContent = 'コピー';
+					copyBtn.classList.remove('copied');
+				}, 1400);
+			});
+		});
+	</script>
+
+	<style>
+		.page {
+			padding-top: 2.5rem;
+		}
+		.page-head h1 {
+			margin: 0 0 0.3rem;
+			font-size: 1.8rem;
+		}
+		.page-sub {
+			margin: 0 0 1.4rem;
+			color: var(--text-soft);
+		}
+		.filter {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 1.4rem;
+		}
+		.filter-toggle {
+			border: 1px dashed var(--border);
+			background: transparent;
+			color: var(--text-soft);
+			font-size: 0.8rem;
+			font-weight: 700;
+			padding: 0.35rem 0.8rem;
+			border-radius: 999px;
+			cursor: pointer;
+		}
+		.filter-toggle:hover {
+			color: var(--text);
+			border-color: var(--accent);
+		}
+		.filter-chip {
+			display: inline-flex;
+			align-items: center;
+			cursor: pointer;
+			user-select: none;
+		}
+		.filter-chip input {
+			position: absolute;
+			opacity: 0;
+			pointer-events: none;
+		}
+		.filter-chip span {
+			border: 1px solid var(--border);
+			background: var(--surface);
+			color: var(--text-soft);
+			font-size: 0.82rem;
+			font-weight: 700;
+			padding: 0.35rem 0.8rem;
+			border-radius: 999px;
+		}
+		.filter-chip input:checked + span {
+			background: var(--cat);
+			border-color: var(--cat);
+			color: #fff;
+		}
+		.result {
+			border-top: 5px solid var(--cat, var(--accent));
+			min-height: 140px;
+			display: flex;
+			flex-direction: column;
+			gap: 0.8rem;
+		}
+		.result-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.5rem;
+		}
+		.result-text {
+			margin: 0;
+			font-size: 1.6rem;
+			font-weight: 800;
+			line-height: 1.5;
+		}
+		.result-hint {
+			margin: 0;
+			color: var(--text-soft);
+		}
+		.copy-btn {
+			border: 1px solid var(--border);
+			background: var(--bg-soft);
+			color: var(--text-soft);
+			font-size: 0.75rem;
+			font-weight: 700;
+			padding: 0.2rem 0.6rem;
+			border-radius: 999px;
+			cursor: pointer;
+			flex-shrink: 0;
+		}
+		.copy-btn.copied {
+			color: #fff;
+			background: var(--cat, var(--accent));
+			border-color: var(--cat, var(--accent));
+		}
+		.draw-row {
+			display: flex;
+			justify-content: center;
+			margin: 1.6rem 0 0.5rem;
+		}
+		.draw-big {
+			font-size: 1.15rem;
+			padding: 1rem 2.4rem;
+		}
+		.pop {
+			animation: pop 0.25s ease;
+		}
+		@keyframes pop {
+			0% {
+				transform: scale(0.99);
+			}
+			60% {
+				transform: scale(1.01);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+		.history-wrap {
+			margin-top: 2.5rem;
+		}
+		.history-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 0.8rem;
+		}
+		.history-head h2 {
+			margin: 0;
+			font-size: 1.2rem;
+		}
+		.btn-sm {
+			padding: 0.4rem 1rem;
+			font-size: 0.85rem;
+		}
+		.history {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+			gap: 0.8rem;
+		}
+		.history-item {
+			border-left: 4px solid var(--cat);
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+			padding: 0.9rem 1rem;
+		}
+		.history-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.5rem;
+		}
+		.history-cat {
+			font-size: 0.75rem;
+			font-weight: 700;
+			color: var(--cat);
+		}
+		.history-text {
+			margin: 0;
+			font-weight: 700;
+			font-size: 0.98rem;
+		}
+	</style>
+</Base>

@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import { topics } from '../data/topics';
+import { categories } from '../data/categories';
+---
+
+<Base
+	title="このサイトについて"
+	description="「トークのタネ」は雑談配信のネタを探すための総合サイト。使い方や特徴を紹介します。"
+>
+	<section class="container page">
+		<header class="page-head">
+			<h1>🌱 このサイトについて</h1>
+			<p class="page-sub">
+				「トークのタネ」は、雑談配信のネタ（話のタネ）探しに特化したサイトです。
+			</p>
+		</header>
+
+		<div class="prose">
+			<p>
+				「今日は何を話そう…」「コメントが止まって沈黙が…」
+				そんな雑談配信・ラジオ配信・収録のときに、
+				話のきっかけになるテーマを{categories.length}カテゴリ・{topics.length}個用意しました。
+			</p>
+
+			<h2>使い方</h2>
+			<ol>
+				<li>
+					<strong>ガチャで引く</strong> —
+					<a href="/gacha">ネタガチャ</a>でボタンを押すと、ランダムにお題が1つ出ます。カテゴリを絞ることも可能。
+				</li>
+				<li>
+					<strong>一覧から探す</strong> —
+					<a href="/topics">ネタ一覧</a>でキーワード検索やカテゴリ絞り込み。じっくり選びたいときに。
+				</li>
+				<li>
+					<strong>カテゴリから探す</strong> —
+					<a href="/categories">カテゴリ</a>でジャンル別に話題をチェック。
+				</li>
+				<li>
+					<strong>コピーして使う</strong> —
+					各ネタの「コピー」ボタンで、配信メモや台本にすぐ貼り付けられます。
+				</li>
+			</ol>
+
+			<h2>配信で使うコツ</h2>
+			<ul>
+				<li>お題に添えた <strong>💡 ヒント</strong> で会話を深掘りすると、自然に話が広がります。</li>
+				<li>
+					<a href="/categories/audience">視聴者参加・アンケート</a>のネタは、コメントで答えてもらいやすく、沈黙対策に効果的です。
+				</li>
+				<li>配信前に<a href="/">トップページ</a>の「今日のネタ」をチェックして、つかみに使うのもおすすめ。</li>
+			</ul>
+
+			<h2>特徴</h2>
+			<ul>
+				<li>完全無料・登録不要。スマホでもサクサク動きます。</li>
+				<li>引いたネタはブラウザ内だけで処理。サーバーに送信しません。</li>
+				<li>今後もネタやカテゴリを追加していく予定です。</li>
+			</ul>
+		</div>
+
+		<div class="cta">
+			<a href="/gacha" class="btn">🎲 さっそくネタを引く</a>
+		</div>
+	</section>
+
+	<style>
+		.page {
+			padding-top: 2.5rem;
+			max-width: 720px;
+		}
+		.page-head h1 {
+			margin: 0 0 0.4rem;
+			font-size: 1.9rem;
+		}
+		.page-sub {
+			margin: 0;
+			color: var(--text-soft);
+		}
+		.prose {
+			margin-top: 2rem;
+		}
+		.prose h2 {
+			margin: 2rem 0 0.6rem;
+			font-size: 1.3rem;
+			border-left: 4px solid var(--accent);
+			padding-left: 0.6rem;
+		}
+		.prose li {
+			margin-bottom: 0.5rem;
+		}
+		.cta {
+			margin-top: 2.5rem;
+			text-align: center;
+		}
+	</style>
+</Base>

@@ -1,0 +1,93 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import TopicCard from '../../components/TopicCard.astro';
+import { categories } from '../../data/categories';
+import { getTopicsByCategory } from '../../data/topics';
+
+export const getStaticPaths = (() => {
+	return categories.map((c) => ({
+		params: { id: c.id },
+		props: { category: c },
+	}));
+}) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+const list = getTopicsByCategory(category.id);
+---
+
+<Base
+	title={category.name}
+	description={`${category.name}の雑談ネタ一覧。${category.description}`}
+>
+	<section class="container page">
+		<nav class="breadcrumb" aria-label="パンくず">
+			<a href="/categories">カテゴリ</a><span>/</span><span>{category.name}</span>
+		</nav>
+		<header class="page-head" style={`--cat:${category.color}`}>
+			<span class="big-emoji">{category.emoji}</span>
+			<h1>{category.name}</h1>
+			<p class="page-sub">{category.description}</p>
+			<p class="count">{list.length}個のネタ</p>
+		</header>
+
+		<div class="grid">
+			{list.map((t) => <TopicCard topic={t} showCategory={false} />)}
+		</div>
+
+		<div class="more">
+			<a href="/gacha" class="btn">🎲 ガチャで引く</a>
+			<a href="/categories" class="btn btn--ghost">← 他のカテゴリを見る</a>
+		</div>
+	</section>
+
+	<style>
+		.page {
+			padding-top: 2rem;
+		}
+		.breadcrumb {
+			display: flex;
+			gap: 0.4rem;
+			font-size: 0.85rem;
+			color: var(--text-soft);
+			margin-bottom: 1rem;
+		}
+		.page-head {
+			text-align: center;
+			margin-bottom: 1.8rem;
+			padding-bottom: 1.4rem;
+			border-bottom: 2px solid var(--cat);
+		}
+		.big-emoji {
+			font-size: 3rem;
+			display: block;
+		}
+		.page-head h1 {
+			margin: 0.3rem 0 0.4rem;
+			font-size: 2rem;
+		}
+		.page-sub {
+			margin: 0 auto;
+			max-width: 40rem;
+			color: var(--text-soft);
+		}
+		.count {
+			margin: 0.6rem 0 0;
+			color: var(--cat);
+			font-weight: 700;
+			font-size: 0.9rem;
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 1rem;
+		}
+		.more {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.8rem;
+			justify-content: center;
+			margin-top: 2.5rem;
+		}
+	</style>
+</Base>

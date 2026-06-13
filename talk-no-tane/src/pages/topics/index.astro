@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopicCard from '../../components/TopicCard.astro';
+import { topics } from '../../data/topics';
+import { categories } from '../../data/categories';
+---
+
+<Base
+	title="ネタ一覧・検索"
+	description="雑談配信で使える話のタネを一覧で。キーワード検索やカテゴリで絞り込み、お気に入りのトークテーマを探そう。"
+>
+	<section class="container page">
+		<header class="page-head">
+			<h1>🔎 ネタ一覧・検索</h1>
+			<p class="page-sub">
+				全{topics.length}個のネタからキーワードやカテゴリで絞り込めます。
+			</p>
+		</header>
+
+		<div class="controls">
+			<input
+				id="search"
+				type="search"
+				placeholder="キーワードで検索（例: 食べ物、子供の頃…）"
+				aria-label="ネタをキーワードで検索"
+			/>
+			<div class="cat-filter" role="group" aria-label="カテゴリで絞り込み">
+				<button class="fbtn active" type="button" data-cat="">すべて</button>
+				{
+					categories.map((c) => (
+						<button
+							class="fbtn"
+							type="button"
+							data-cat={c.id}
+							style={`--cat:${c.color}`}
+						>
+							{c.emoji} {c.name}
+						</button>
+					))
+				}
+			</div>
+		</div>
+
+		<p id="count" class="count"></p>
+
+		<div id="grid" class="grid">
+			{topics.map((t) => <TopicCard topic={t} />)}
+		</div>
+		<p id="empty" class="empty" hidden>
+			条件に合うネタが見つかりませんでした。
+		</p>
+	</section>
+
+	<script>
+		const search = document.getElementById('search') as HTMLInputElement;
+		const grid = document.getElementById('grid')!;
+		const cards = Array.from(
+			grid.querySelectorAll<HTMLElement>('.topic-card'),
+		);
+		const fbtns = Array.from(
+			document.querySelectorAll<HTMLButtonElement>('.fbtn'),
+		);
+		const countEl = document.getElementById('count')!;
+		const emptyEl = document.getElementById('empty') as HTMLElement;
+		let activeCat = '';
+
+		function apply() {
+			const q = search.value.trim().toLowerCase();
+			let shown = 0;
+			cards.forEach((card) => {
+				const text = (card.dataset.topic || '').toLowerCase();
+				const cat = card.dataset.category || '';
+				const matchCat = !activeCat || cat === activeCat;
+				const matchText = !q || text.includes(q);
+				const show = matchCat && matchText;
+				card.hidden = !show;
+				if (show) shown++;
+			});
+			countEl.textContent = `${shown}件のネタ`;
+			emptyEl.hidden = shown !== 0;
+		}
+
+		search.addEventListener('input', apply);
+		fbtns.forEach((b) =>
+			b.addEventListener('click', () => {
+				fbtns.forEach((x) => x.classList.remove('active'));
+				b.classList.add('active');
+				activeCat = b.dataset.cat || '';
+				apply();
+			}),
+		);
+		apply();
+	</script>
+
+	<style>
+		.page {
+			padding-top: 2.5rem;
+		}
+		.page-head h1 {
+			margin: 0 0 0.3rem;
+			font-size: 1.8rem;
+		}
+		.page-sub {
+			margin: 0 0 1.4rem;
+			color: var(--text-soft);
+		}
+		.controls {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			margin-bottom: 1rem;
+		}
+		#search {
+			width: 100%;
+			padding: 0.85rem 1.1rem;
+			font-size: 1rem;
+			border: 1px solid var(--border);
+			border-radius: 999px;
+			background: var(--surface);
+			color: var(--text);
+		}
+		#search:focus {
+			outline: none;
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px var(--accent-soft);
+		}
+		.cat-filter {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+		.fbtn {
+			border: 1px solid var(--border);
+			background: var(--surface);
+			color: var(--text-soft);
+			font-size: 0.82rem;
+			font-weight: 700;
+			padding: 0.35rem 0.8rem;
+			border-radius: 999px;
+			cursor: pointer;
+		}
+		.fbtn:hover {
+			color: var(--text);
+		}
+		.fbtn.active {
+			background: var(--cat, var(--accent));
+			border-color: var(--cat, var(--accent));
+			color: #fff;
+		}
+		.count {
+			color: var(--text-soft);
+			font-size: 0.9rem;
+			margin: 0 0 1rem;
+		}
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 1rem;
+		}
+		.empty {
+			text-align: center;
+			color: var(--text-soft);
+			padding: 3rem 0;
+		}
+	</style>
+</Base>
