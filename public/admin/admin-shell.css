@@ -1,0 +1,348 @@
+:root {
+	color-scheme: light;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #0f172a;
+	background: #f8fafc;
+}
+
+@font-face {
+	font-family: "Atkinson";
+	src: url("/fonts/atkinson-regular.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	display: grid;
+	grid-template-rows: 48px minmax(0, 1fr);
+	background: #f8fafc;
+}
+
+.admin-tools {
+	position: relative;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 14px;
+	border-bottom: 1px solid #e2e8f0;
+	background: #fff;
+}
+
+.admin-tools a {
+	color: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.admin-tools__brand {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.admin-tools__actions {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: 6px;
+}
+
+.admin-tools__font-guide,
+.admin-tools__polish {
+	display: inline-flex;
+	box-sizing: border-box;
+	min-height: 36px;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 0 10px;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+.admin-tools__font-guide {
+	border: 1px solid #cbd5e1;
+	color: #334155;
+	background: #ffffff;
+}
+
+.admin-tools__font-guide:hover {
+	background: #f1f5f9;
+}
+
+.admin-tools__font-guide:active {
+	background: #e2e8f0;
+}
+
+.admin-tools__font-icon {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 17px;
+	line-height: 1;
+}
+
+.admin-tools__polish {
+	border: 1px solid #bfdbfe;
+	color: #1d4ed8 !important;
+	background: #eff6ff;
+}
+
+.admin-tools__polish:hover {
+	background: #dbeafe;
+}
+
+.admin-tools__polish:active {
+	background: #bfdbfe;
+}
+
+.admin-tools__open-icon {
+	flex: 0 0 auto;
+	opacity: 0.72;
+}
+
+.admin-tools a:focus-visible,
+.admin-tools button:focus-visible,
+.font-guide button:focus-visible {
+	outline: 2px solid #2563eb;
+	outline-offset: 2px;
+}
+
+.font-guide {
+	box-sizing: border-box;
+	width: min(560px, calc(100% - 32px));
+	max-height: min(760px, calc(100dvh - 32px));
+	padding: 0;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	color: #0f172a;
+	background: #ffffff;
+	box-shadow: 0 24px 64px rgb(15 23 42 / 0.22);
+}
+
+.font-guide[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+.font-guide::backdrop {
+	background: rgb(15 23 42 / 0.48);
+}
+
+.font-guide__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 18px 18px 14px;
+	border-bottom: 1px solid #e2e8f0;
+}
+
+.font-guide__eyebrow {
+	margin: 0 0 2px;
+	color: #2563eb;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.font-guide h2 {
+	margin: 0;
+	font-size: 20px;
+	line-height: 1.35;
+}
+
+.font-guide__icon-close {
+	display: inline-grid;
+	width: 44px;
+	height: 44px;
+	flex: 0 0 auto;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	border-radius: 8px;
+	color: #475569;
+	background: transparent;
+	cursor: pointer;
+}
+
+.font-guide__icon-close:hover {
+	background: #f1f5f9;
+}
+
+.font-guide__help {
+	margin: 0;
+	padding: 12px 18px;
+	color: #475569;
+	background: #f8fafc;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.font-guide__list {
+	min-height: 0;
+	margin: 0;
+	padding: 0 18px;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.font-guide__list li {
+	display: grid;
+	grid-template-columns: minmax(132px, 0.75fr) minmax(0, 1.6fr);
+	align-items: center;
+	gap: 18px;
+	padding: 14px 0;
+	border-bottom: 1px solid #e2e8f0;
+}
+
+.font-guide__list li:last-child {
+	border-bottom: 0;
+}
+
+.font-guide__name {
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.45;
+}
+
+.font-guide__name small {
+	display: block;
+	color: #64748b;
+	font-size: 11px;
+	font-weight: 500;
+}
+
+.font-guide__sample {
+	min-width: 0;
+	font-size: 18px;
+	line-height: 1.7;
+	overflow-wrap: anywhere;
+}
+
+.font-guide__font-sans { font-family: "Atkinson", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; }
+.font-guide__font-serif { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif; }
+.font-guide__font-friendly { font-family: ui-rounded, "Hiragino Maru Gothic ProN", "BIZ UDPGothic", "BIZ UDGothic", "Yu Gothic", Meiryo, sans-serif; }
+.font-guide__font-handwriting { font-family: "Klee", "Yu Kyokasho", "UD デジタル 教科書体 NP", "UD デジタル 教科書体 N", "UD Digi Kyokasho N-R", "Hiragino Mincho ProN", cursive; letter-spacing: 0.025em; }
+.font-guide__font-textbook { font-family: "Yu Kyokasho", "UD デジタル 教科書体 NP", "UD デジタル 教科書体 N", "UD Digi Kyokasho N-R", "BIZ UDMincho", "Yu Mincho", serif; }
+.font-guide__font-modern { font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui, sans-serif; letter-spacing: 0.01em; }
+.font-guide__font-mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 0.95em; }
+
+.font-guide__footer {
+	padding: 12px 18px;
+	border-top: 1px solid #e2e8f0;
+	background: #ffffff;
+}
+
+.font-guide__footer button {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 44px;
+	padding: 0 14px;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	color: #0f172a;
+	background: #ffffff;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.font-guide__footer button:hover {
+	background: #f1f5f9;
+}
+
+#nc-root {
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+}
+
+@media (max-width: 540px) {
+	body {
+		grid-template-rows: 44px minmax(0, 1fr);
+	}
+
+	.admin-tools {
+		padding: 0 8px 0 12px;
+	}
+
+	.admin-tools__actions {
+		gap: 2px;
+	}
+
+	.admin-tools__font-guide,
+	.admin-tools__polish {
+		width: 44px;
+		min-height: 44px;
+		padding: 0;
+		border-color: transparent;
+		background: transparent;
+	}
+
+	.admin-tools__polish:hover,
+	.admin-tools__polish:active {
+		background: #eff6ff;
+	}
+
+	.admin-tools__action-label,
+	.admin-tools__open-icon {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.font-guide {
+		width: calc(100% - 16px);
+		max-height: calc(100dvh - 16px);
+	}
+
+	.font-guide__header {
+		padding: 14px 14px 10px;
+	}
+
+	.font-guide__help {
+		padding: 10px 14px;
+	}
+
+	.font-guide__list {
+		padding: 0 14px;
+	}
+
+	.font-guide__list li {
+		grid-template-columns: 1fr;
+		gap: 4px;
+		padding: 11px 0;
+	}
+
+	.font-guide__name small {
+		display: inline;
+		margin-left: 4px;
+	}
+
+	.font-guide__sample {
+		font-size: 17px;
+	}
+
+	.font-guide__footer {
+		padding: 10px 14px 14px;
+	}
+}

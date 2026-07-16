@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Claude Code
 .claude/
+
+# Local browser profiles used for visual verification
+.codex-*-profile/

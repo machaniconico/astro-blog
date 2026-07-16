@@ -80,9 +80,10 @@ img {
 
 .post-photo figcaption {
 	margin-top: 0.6rem;
-	color: #64748b;
+	color: #475569;
 	font-size: 0.8em;
 	line-height: 1.5;
+	overflow-wrap: anywhere;
 	text-align: center;
 }
 
@@ -102,6 +103,110 @@ img {
 .text-xlarge { font-size: 1.6em; line-height: 1.55; }
 .font-sans { font-family: "Atkinson", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; }
 .font-serif { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif; }
+.font-friendly {
+	font-family: ui-rounded, "Hiragino Maru Gothic ProN", "BIZ UDPGothic", "BIZ UDGothic", "Yu Gothic", Meiryo, sans-serif;
+}
+.font-handwriting {
+	font-family: "Klee", "Yu Kyokasho", "UD デジタル 教科書体 NP", "UD デジタル 教科書体 N", "UD Digi Kyokasho N-R", "Hiragino Mincho ProN", cursive;
+	letter-spacing: 0.025em;
+}
+.font-textbook {
+	font-family: "Yu Kyokasho", "UD デジタル 教科書体 NP", "UD デジタル 教科書体 N", "UD Digi Kyokasho N-R", "BIZ UDMincho", "Yu Mincho", serif;
+}
+.font-modern {
+	font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, system-ui, sans-serif;
+	letter-spacing: 0.01em;
+}
+.font-mono {
+	font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+	font-size: 0.95em;
+	overflow-wrap: anywhere;
+}
+.emphasis-normal { color: inherit; font-weight: 400; }
+.emphasis-bold { color: inherit; font-weight: 700; }
+.emphasis-accent { color: #1d4ed8; font-weight: 700; }
+.emphasis-muted { color: #475569; font-weight: 400; }
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+
+.post-callout {
+	margin: 2rem 0;
+	padding: 1rem 1.1rem;
+	border: 1px solid #e2e8f0;
+	border-left-width: 4px;
+	border-radius: 8px;
+	background: #f8fafc;
+}
+
+.post-callout--note {
+	border-left-color: #64748b;
+}
+
+.post-callout--info {
+	border-color: #bfdbfe;
+	border-left-color: #2563eb;
+	background: #eff6ff;
+}
+
+.post-callout--warm {
+	border-color: #fed7aa;
+	border-left-color: #f97316;
+	background: #fff7ed;
+}
+
+.post-callout__title {
+	margin: 0 0 0.3rem;
+	font-weight: 700;
+}
+
+.post-callout__title:empty {
+	display: none;
+}
+
+.post-callout__body {
+	margin: 0;
+	white-space: pre-wrap;
+}
+
+.post-divider {
+	border: 0;
+	margin: 2.75rem auto;
+}
+
+.post-divider--line {
+	border-top: 1px solid #cbd5e1;
+}
+
+.post-divider--dots {
+	width: 72px;
+	height: 8px;
+	background: radial-gradient(circle, #94a3b8 2px, transparent 2.5px) 0 0 / 24px 8px;
+}
+
+.post-details {
+	margin: 1.75rem 0;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	background: #ffffff;
+}
+
+.post-details summary {
+	min-height: 44px;
+	box-sizing: border-box;
+	padding: 0.7rem 1rem;
+	cursor: pointer;
+	font-weight: 700;
+}
+
+.post-details summary::marker {
+	color: #2563eb;
+}
+
+.post-details__body {
+	padding: 0.9rem 1rem 1rem;
+	border-top: 1px solid #e2e8f0;
+	white-space: pre-wrap;
+}
 
 @media (max-width: 540px) {
 	.diary-preview {

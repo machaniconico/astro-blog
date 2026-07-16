@@ -54,9 +54,11 @@ collections:
           - numbered-list
           - quote
           - link
-        editor_components: [image, photo, styled-text]
+        editor_components: [image, photo, styled-text, callout, divider, details]
+        allow_nested_components: false
         linked_images: false
-        hint: すぐ貼るなら画像ボタン。説明やワイド表示を付けるなら「挿入 → 写真（説明・表示幅つき）」を使います
+        sanitize_preview: true
+        hint: 写真だけなら画像ボタン。説明・一言・表示幅も付けるなら「挿入 → 説明つき写真」を使います
       - name: description
         widget: hidden
         default: 日常の記録
@@ -69,17 +71,49 @@ collections:
 
   - name: blog
     label: ブログ記事（開発記録）
+    label_singular: ブログ記事
     icon: article
     folder: src/content/blog
+    extension: md
     create: true
     delete: true
     slug: "{{slug}}"
     fields:
-      - { label: "タイトル", name: title, widget: string }
-      - { label: "説明", name: description, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "アイキャッチ画像", name: heroImage, widget: image, required: false }
-      - { label: "本文", name: body, widget: markdown }
+      - label: タイトル
+        name: title
+        widget: string
+        maxlength: 80
+        hint: 記事の見出しになります
+      - label: 本文
+        name: body
+        widget: richtext
+        modes: [rich_text]
+        buttons:
+          - bold
+          - italic
+          - strikethrough
+          - code
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+          - link
+        editor_components: [code-block, image, photo, styled-text, callout, divider, details]
+        allow_nested_components: false
+        linked_images: false
+        sanitize_preview: true
+        hint: 通常はそのまま入力。写真・文字スタイル・囲み・折りたたみは「挿入」、コード例は段落の種類から選べます
+      - label: アイキャッチ画像（任意）
+        name: heroImage
+        widget: image
+        required: false
+      - name: description
+        widget: hidden
+        default: ""
+      - name: pubDate
+        widget: hidden
+        default: "{{datetime}}"
 
   - name: works
     label: 成果物
