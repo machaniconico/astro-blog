@@ -2,15 +2,74 @@ backend:
   name: github
   repo: machaniconico/astro-blog
   branch: main
+  auth_methods: [token]
 
-media_folder: public/images/blog
-public_folder: /images/blog
-
+site_url: https://machaniconico.com
+app_title: まちゃブログ投稿
 locale: ja
 
+media_folder: /public/images/blog
+public_folder: /images/blog
+media_libraries:
+  all:
+    max_file_size: 12582912
+    slugify_filename: true
+    transformations:
+      raster_image:
+        format: webp
+        quality: 85
+        width: 2048
+        height: 2048
+      svg:
+        optimize: true
+
 collections:
+  - name: diary
+    label: 日常の日記
+    label_singular: 日記
+    icon: edit_note
+    folder: src/content/diary
+    media_folder: /public/images/diary
+    public_folder: /images/diary
+    create: true
+    delete: false
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{pubDate}}"
+    fields:
+      - label: タイトル
+        name: title
+        widget: string
+        maxlength: 80
+        hint: 記事の見出しになります
+      - label: 本文
+        name: body
+        widget: richtext
+        modes: [rich_text]
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+          - link
+        editor_components: [image, photo, styled-text]
+        linked_images: false
+        hint: すぐ貼るなら画像ボタン。説明やワイド表示を付けるなら「挿入 → 写真（説明・表示幅つき）」を使います
+      - name: description
+        widget: hidden
+        default: 日常の記録
+      - name: pubDate
+        widget: hidden
+        default: "{{datetime}}"
+      - name: tags
+        widget: hidden
+        default: []
+
   - name: blog
     label: ブログ記事（開発記録）
+    icon: article
     folder: src/content/blog
     create: true
     delete: true
@@ -22,25 +81,9 @@ collections:
       - { label: "アイキャッチ画像", name: heroImage, widget: image, required: false }
       - { label: "本文", name: body, widget: markdown }
 
-  - name: diary
-    label: 日常の日記
-    folder: src/content/diary
-    create: true
-    delete: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "タイトル", name: title, widget: string }
-      - { label: "説明", name: description, widget: string }
-      - { label: "公開日", name: pubDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - label: "タグ"
-        name: tags
-        widget: list
-        required: false
-        field: { label: タグ, name: tag, widget: string }
-      - { label: "本文", name: body, widget: markdown }
-
   - name: works
     label: 成果物
+    icon: deployed_code
     folder: src/content/works
     create: true
     delete: true
