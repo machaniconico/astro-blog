@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import { decideDeployment } from '../scripts/check-due-posts.mjs';
 import { parseFrontmatter, parsePubDate } from '../scripts/lib/frontmatter.mjs';
 import { countUnderPath, extractLocations } from '../scripts/lib/sitemap.mjs';
+import { readWorkflow } from './helpers/workflow.mjs';
 
 const read = (relativePath) => readFile(new URL(`../${relativePath}`, import.meta.url), 'utf8');
 
@@ -114,7 +115,7 @@ test('個別ページを持たないコレクションはsitemapがあっても�
 });
 
 test('定期ジョブは公開が必要なときだけデプロイフックを叩く', async () => {
-	const workflow = await read('.github/workflows/publish-and-share.yml');
+	const workflow = await readWorkflow('publish-and-share.yml');
 	assert.match(workflow, /cron: '5 \* \* \* \*'/);
 	assert.match(workflow, /run: node scripts\/check-due-posts\.mjs/);
 	assert.match(workflow, /if: steps\.check\.outputs\.should_deploy == 'true'[\s\S]*?CF_PAGES_DEPLOY_HOOK/);

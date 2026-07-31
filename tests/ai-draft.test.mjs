@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { DRAFT_SCHEMA, SYSTEM_PROMPT, buildMarkdown, buildUserPrompt, toSlug, uniqueSlug } from '../scripts/lib/draft.mjs';
 import { parseFrontmatter } from '../scripts/lib/frontmatter.mjs';
+import { readWorkflow } from './helpers/workflow.mjs';
 
 const read = (relativePath) => readFile(new URL(`../${relativePath}`, import.meta.url), 'utf8');
 
@@ -86,7 +87,7 @@ test('APIキーが無いときは静かに何もしない', async () => {
 });
 
 test('生成物は自動公開せずプルリクエストで止める', async () => {
-	const workflow = await read('.github/workflows/ai-draft.yml');
+	const workflow = await readWorkflow('ai-draft.yml');
 	assert.match(workflow, /gh pr create/);
 	assert.doesNotMatch(workflow, /HEAD:main/, '下書きをmainへ直接pushしない');
 

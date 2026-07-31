@@ -1,0 +1,78 @@
+name: AI下書きの自動生成
+
+# Claudeに記事の下書きを書かせ、プルリクエストとして提出する。
+# 自動で公開はしない。人間がレビューしてマージするまで本番には出ない。
+# ANTHROPIC_API_KEY が未設定のときは何もせず終了する。
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'テーマ（空欄ならClaudeが過去記事を見て決めます）'
+        required: false
+        type: string
+  schedule:
+    # 毎週月曜 09:00 JST。定期生成が不要なら schedule ブロックごと消せば手動専用になる。
+    - cron: '0 0 * * 1'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    name: 下書きを書く
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # ビルドはしないので、postinstall（sharpなど）は動かさない。
+      - run: npm ci --ignore-scripts
+
+      - name: 下書きを生成
+        id: draft
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TOPIC: ${{ inputs.topic }}
+        run: node scripts/draft-post.mjs
+
+      - name: プルリクエストを作成
+        if: steps.draft.outputs.created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 生成物はシェルへ直接展開せず、環境変数を経由して渡す。
+          DRAFT_TITLE: ${{ steps.draft.outputs.title }}
+          DRAFT_DESCRIPTION: ${{ steps.draft.outputs.description }}
+          DRAFT_PATH: ${{ steps.draft.outputs.file_path }}
+          DRAFT_TAGS: ${{ steps.draft.outputs.tags }}
+        run: |
+          BRANCH="claude/ai-draft-${GITHUB_RUN_ID}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$BRANCH"
+          git add "$DRAFT_PATH"
+          git commit -m "draft: AIによる記事下書き"
+          git push -u origin "$BRANCH"
+
+          {
+            printf 'Claudeが自動生成したブログ記事の下書きです。\n\n'
+            printf '- ファイル: `%s`\n' "$DRAFT_PATH"
+            printf '- 説明文: %s\n' "$DRAFT_DESCRIPTION"
+            printf '- 参考タグ: %s\n\n' "$DRAFT_TAGS"
+            printf '## マージ前に確認すること\n\n'
+            printf -- '- 事実関係（バージョン・数値・手順）が正しいか\n'
+            printf -- '- 体験していないことを書いていないか\n'
+            printf -- '- 文体が既存記事と揃っているか\n\n'
+            printf 'frontmatterの `pubDate` を未来の日時に変えると、マージ後その時刻に自動公開されます。\n'
+          } > "$RUNNER_TEMP/pr-body.md"
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "下書き: $DRAFT_TITLE" \
+            --body-file "$RUNNER_TEMP/pr-body.md"

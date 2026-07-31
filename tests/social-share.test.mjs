@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { buildLinkFacets, composePostText, extractPageMetadata, resolveTargets } from '../scripts/lib/social.mjs';
 import { planShares, selectShareableUrls } from '../scripts/share-new-posts.mjs';
+import { readWorkflow } from './helpers/workflow.mjs';
 
 const read = (relativePath) => readFile(new URL(`../${relativePath}`, import.meta.url), 'utf8');
 
@@ -138,7 +139,7 @@ test('シークレットが揃ったSNSだけが共有先になる', () => {
 });
 
 test('共有済みリストの保存コミットではサイトを再ビルドしない', async () => {
-	const workflow = await read('.github/workflows/publish-and-share.yml');
+	const workflow = await readWorkflow('publish-and-share.yml');
 	assert.match(workflow, /\[skip ci\] \[CF-Pages-Skip\]/);
 	assert.match(workflow, /run: node scripts\/share-new-posts\.mjs/);
 });

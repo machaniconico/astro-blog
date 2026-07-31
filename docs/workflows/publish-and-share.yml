@@ -1,0 +1,83 @@
+name: 予約投稿とSNS共有
+
+# 静的サイトなので、時刻が来ても誰かがビルドを叩かないと予約投稿は公開されない。
+# ここで毎時ようすを見て、公開待ちがあるときだけCloudflare Pagesを再ビルドし、
+# 本番に出た記事をSNSへ流す。npm installは不要（スクリプトはNode標準機能だけで動く）。
+
+on:
+  schedule:
+    # 毎時5分（UTC）。GitHubのcronは混雑時に数分〜十数分遅れることがある。
+    - cron: '5 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/**'
+  workflow_dispatch:
+
+# 共有済みリストの取り合いを避けるため、同時実行はしない。
+concurrency:
+  group: publish-and-share
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  SITE_URL: ${{ vars.SITE_URL || 'https://machaniconico.com' }}
+
+jobs:
+  publish:
+    name: 公開と共有
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 公開時刻を過ぎた記事があるか確認
+        id: check
+        if: github.event_name != 'push'
+        run: node scripts/check-due-posts.mjs
+
+      - name: Cloudflare Pages を再ビルド
+        if: steps.check.outputs.should_deploy == 'true'
+        env:
+          DEPLOY_HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+          REASON: ${{ steps.check.outputs.reason }}
+        run: |
+          if [ -z "$DEPLOY_HOOK" ]; then
+            echo "::warning::CF_PAGES_DEPLOY_HOOK が未設定のため再ビルドできません"
+            exit 0
+          fi
+          curl -fsS -X POST "$DEPLOY_HOOK" > /dev/null
+          printf '再ビルドを開始しました: %s\n' "$REASON"
+
+      # ビルド完了前にsitemapを見ても新記事は載っていないので、少しだけ待つ。
+      # 間に合わなかった場合も、次回の実行で拾い直されるだけで取りこぼしにはならない。
+      - name: デプロイの反映を待つ
+        if: github.event_name == 'push' || steps.check.outputs.should_deploy == 'true'
+        run: sleep 180
+
+      - name: 新しく公開された記事をSNSへ共有
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          MASTODON_BASE_URL: ${{ secrets.MASTODON_BASE_URL }}
+          MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+        run: node scripts/share-new-posts.mjs
+
+      - name: 共有済みリストを保存
+        if: always()
+        run: |
+          if [ -z "$(git status --porcelain -- .github/social)" ]; then
+            echo '共有済みリストに変更はありません。'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/social
+          # [skip ci] / [CF-Pages-Skip] で、この記録用コミットではビルドを走らせない。
+          git commit -m 'chore: SNS共有済みリストを更新 [skip ci] [CF-Pages-Skip]'
+          git push origin HEAD:main

@@ -58,6 +58,9 @@ All commands are run from the root of the project, from a terminal:
 自動化は3つ。**どれも必要なシークレットが未設定のあいだは何もしない**ので、使いたいものだけ設定すれば動き出す。
 設定場所は GitHub の Settings → Secrets and variables → Actions。
 
+> **⚠️ 最初に一度だけ:** ワークフロー定義は `docs/workflows/` に仮置きされている。
+> `.github/workflows/` へ移すまでは動かない。手順は [`docs/workflows/README.md`](docs/workflows/README.md) を参照。
+
 | シークレット | 使う機能 | 取得元 |
 | :-- | :-- | :-- |
 | `CF_PAGES_DEPLOY_HOOK` | 予約投稿 | Cloudflare ダッシュボード → Pages → 対象プロジェクト → Settings → Builds & deployments → Deploy hooks |
@@ -65,7 +68,7 @@ All commands are run from the root of the project, from a terminal:
 | `MASTODON_BASE_URL` / `MASTODON_ACCESS_TOKEN` | SNS共有 | 各インスタンスの 設定 → 開発 → 新規アプリ |
 | `ANTHROPIC_API_KEY` | AI下書き | [Anthropic Console](https://console.anthropic.com/) |
 
-### 1. 予約投稿（`.github/workflows/publish-and-share.yml`）
+### 1. 予約投稿（`publish-and-share.yml`）
 
 `/admin` の「公開日時」に未来の日時を選ぶと、その時刻を過ぎてから自動で公開される。
 
@@ -90,7 +93,7 @@ Cloudflare Pages の無料枠（月500ビルド）を毎時ビルドで使い切
 - X(Twitter) は未対応。書き込みに OAuth 1.0a 署名が必要で、検証できないコードを載せたくなかったため。
   足すなら `scripts/lib/social.mjs` の `resolveTargets` に1件追加する形になる
 
-### 3. AI下書き自動生成（`.github/workflows/ai-draft.yml`）
+### 3. AI下書き自動生成（`ai-draft.yml`）
 
 Actions → 「AI下書きの自動生成」→ Run workflow でテーマを渡すと、Claude が記事の下書きを書いて
 **プルリクエストとして提出する**（毎週月曜9時にも自動実行）。自動では公開しない。
