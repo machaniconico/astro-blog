@@ -291,7 +291,8 @@ test('ブログもタイトルと本文だけで説明文を自動生成でき�
 		'ブログではタイトルの次に本文を編集できる',
 	);
 	assert.match(configYml, /name: blog[\s\S]*?name: description\n\s+widget: hidden/);
-	assert.match(configYml, /name: blog[\s\S]*?name: pubDate\n\s+widget: hidden/);
+	// 公開日時だけは隠さない。未来の日時を選べることが予約投稿の入口になる。
+	assert.match(configYml, /name: blog[\s\S]*?name: pubDate\n\s+widget: datetime/);
 });
 
 test('既存ブログの手書き説明文は保存時に上書きしない', () => {

@@ -62,9 +62,13 @@ collections:
       - name: description
         widget: hidden
         default: 日常の記録
-      - name: pubDate
-        widget: hidden
-        default: "{{datetime}}"
+      - label: 公開日時
+        name: pubDate
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        picker_utc: false
+        hint: そのまま保存すれば今すぐ公開。未来の日時を選ぶと予約投稿になり、その時刻を過ぎてから自動で公開されます
       - name: tags
         widget: hidden
         default: []
@@ -111,9 +115,13 @@ collections:
       - name: description
         widget: hidden
         default: ""
-      - name: pubDate
-        widget: hidden
-        default: "{{datetime}}"
+      - label: 公開日時
+        name: pubDate
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        picker_utc: false
+        hint: そのまま保存すれば今すぐ公開。未来の日時を選ぶと予約投稿になり、その時刻を過ぎてから自動で公開されます
 
   - name: works
     label: 成果物
