@@ -113,6 +113,10 @@ body {
 	opacity: 0.72;
 }
 
+.admin-tools__action-label--mobile {
+	display: none;
+}
+
 .admin-tools a:focus-visible,
 .admin-tools button:focus-visible,
 .font-guide button:focus-visible {
@@ -285,11 +289,13 @@ body {
 
 	.admin-tools__font-guide,
 	.admin-tools__polish {
-		width: 44px;
+		width: auto;
 		min-height: 44px;
-		padding: 0;
+		gap: 4px;
+		padding: 0 8px;
 		border-color: transparent;
 		background: transparent;
+		font-size: 13px;
 	}
 
 	.admin-tools__polish:hover,
@@ -297,17 +303,14 @@ body {
 		background: #eff6ff;
 	}
 
-	.admin-tools__action-label,
+	.admin-tools__action-label--desktop,
 	.admin-tools__open-icon {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
+		display: none;
+	}
+
+	.admin-tools__action-label--mobile {
+		display: inline;
 		white-space: nowrap;
-		border: 0;
 	}
 
 	.font-guide {

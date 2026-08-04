@@ -29,6 +29,7 @@ const createHarness = () => {
 };
 
 test('管理バーからラベル付きの書体見本ダイアログを開ける', () => {
+	assert.match(html, /<html lang="ja">/);
 	assert.match(html, /aria-controls="font-guide"/);
 	assert.match(html, /<dialog class="font-guide" id="font-guide" aria-labelledby="font-guide-title">/);
 	assert.match(html, /src="\/admin\/admin-shell\.js"/);
@@ -37,6 +38,13 @@ test('管理バーからラベル付きの書体見本ダイアログを開け�
 		assert.match(css, new RegExp(`font-guide__font-${font}`));
 	}
 	assert.doesNotMatch(css, /https?:\/\//);
+});
+
+test('スマホでも書体と文章確認の操作名をアイコンと一緒に表示する', () => {
+	assert.match(html, /admin-tools__action-label--mobile">書体<\/span>/);
+	assert.match(html, /admin-tools__action-label--mobile">文章確認<\/span>/);
+	assert.match(css, /\.admin-tools__action-label--mobile\s*\{[\s\S]*?display: inline;[\s\S]*?white-space: nowrap;/);
+	assert.match(css, /\.admin-tools__font-guide,[\s\S]*?\.admin-tools__polish\s*\{[\s\S]*?min-height: 44px;[\s\S]*?padding: 0 8px;/);
 });
 
 test('書体見本は開く・閉じる・背景タップで閉じる操作を備える', () => {
